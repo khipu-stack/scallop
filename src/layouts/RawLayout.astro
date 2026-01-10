@@ -1,0 +1,143 @@
+---
+// src/layouts/RawLayout.astro
+const { title } = Astro.props;
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <a href="/">[ 首页 ]</a>
+        <a href="/music">[ 声音 ]</a>
+        <a href="/notes">[ 笔记 ]</a>
+      </nav>
+      
+      <main>
+        <slot />
+      </main>
+
+      <footer>
+        &copy; 2026 MAXIMUS-SCALLOP // RAW DATA
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  /* 1. 全局重置 */
+  * { box-sizing: border-box; }
+
+  /* 2. 核心基调：黑底，灰字（不再是绿字），增加行高 */
+  body {
+    background-color: #050505; /* 稍微柔和一点点的黑，不完全死黑 */
+    color: #d4d4d4;            /* 正文改成浅灰色，非常护眼 */
+    font-family: 'Courier New', Courier, monospace, "PingFang SC";
+    margin: 0;
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;          /* 增加行距，让文字呼吸 */
+    letter-spacing: 0.02em;    /* 稍微拉开一点字间距 */
+  }
+
+  /* 3. 强调色：把绿色只留给重要元素 */
+  h1, h2, h3, h4, h5, h6, strong, b {
+    color: #00ff41; /* 经典的黑客绿，比纯绿 #0f0 稍微耐看一点点 */
+    font-weight: bold;
+  }
+
+  h1, h2, h3 {
+    border-bottom: 2px solid #00ff41;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  /* 4. 链接样式 */
+  a {
+    color: #00ff41;
+    text-decoration: none;
+    border-bottom: 1px solid #00ff41;
+    transition: all 0.2s;
+  }
+  
+  a:hover {
+    background-color: #00ff41;
+    color: #000;
+  }
+
+  /* 5. 容器布局 */
+  .container {
+    max-width: 750px; /* 稍微收窄一点，阅读体验更好 */
+    margin: 0 auto;
+    border: 1px solid #333; /* 外框改成深灰色，不再那么刺眼 */
+    border-top: 4px solid #00ff41; /* 只在顶部保留绿色硬边 */
+    padding: 40px; /* 增加内边距 */
+    min-height: 90vh;
+  }
+
+  /* 6. 修复那个丑陋的灰色块块 (Blockquote / 引用) */
+  blockquote {
+    background: transparent;   /* 去掉背景色 */
+    border-left: 4px solid #00ff41; /* 只留左边一条绿线 */
+    margin: 30px 0;
+    padding-left: 20px;
+    color: #888; /* 引用文字变暗一点，形成对比 */
+    font-style: italic;
+  }
+
+  /* 7. 修复代码块样式 (如果有用到 code) */
+  code {
+    background-color: #111;
+    color: #00ff41;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-family: monospace;
+  }
+  
+  pre {
+    background-color: #111;
+    padding: 15px;
+    border: 1px dashed #333;
+    overflow-x: auto;
+  }
+
+  /* 8. 图片自适应（保留之前的设置） */
+  main img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 30px auto;
+    border: 1px solid #333; /* 图片边框也改成深灰 */
+  }
+  
+  /* 9. 列表样式 */
+  ul, ol {
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 10px; /* 列表项之间拉开距离 */
+  }
+  li::marker {
+    color: #00ff41; /* 列表前面的小圆点变成绿色 */
+  }
+
+  footer {
+    margin-top: 50px;
+    border-top: 1px dashed #333;
+    padding-top: 10px;
+    font-size: 0.8em;
+    color: #666;
+    /* text-align: center; */
+  }
+  
+  /* 导航栏调整 */
+  nav {
+    margin-bottom: 60px;
+    /* text-align: right; 导航靠右，更有设计感 */
+  }
+</style>

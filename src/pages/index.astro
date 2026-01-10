@@ -1,16 +1,24 @@
 ---
-
+import RawLayout from '../layouts/RawLayout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<RawLayout title="首页 // SCALLOP">
+  
+  <h1>Initializing</h1>
+  
+  <p>Willkommen in meinen digitalen Ruinen.</p>
+  <p>Uncategorized sound samples and fragmented thoughts are stored here.<p>
+
+  <div style="border: 1px solid white; padding: 10px; margin: 20px 0;">
+    <strong>Latest</strong> <br/>
+    Tidying up 2025 recordings…...
+  </div>
+
+  <h2>索引 / Index</h2>
+  <ul>
+    <li><a href="/music">Alpha Stone</a></li>
+    <li><a href="/notes">田野录音笔记</a></li>
+    <li><a href="https://github.com/yourusername" target="_blank">代码仓库</a></li>
+  </ul>
+
+</RawLayout>

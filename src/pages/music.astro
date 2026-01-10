@@ -1,0 +1,56 @@
+---
+// 1. 引入模具
+import RawLayout from '../layouts/RawLayout.astro';
+---
+
+<RawLayout title="声音 // SCALLOP">
+
+  <h1>音频档案</h1>
+  <p>佩戴耳机以获得最佳体验。</p>
+
+  <div class="album">
+    <h3>01. 模块合成器即兴 (2025)</h3>
+    <p>地点: 柏林 / 设备: Eurorack</p>
+    
+    <iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1436402287/size=large/bgcol=333333/linkcol=0f0/tracklist=false/artwork=small/transparent=true/" seamless></iframe>
+  </div>
+
+  <div class="album">
+    <h3>02. sr spmi</h3>
+    <p>Berlin / Xiuyuan Shen</p>
+    
+    <iframe 
+    width="100%" 
+    height="300" 
+    scrolling="no" 
+    frameborder="no" 
+    allow="autoplay" 
+    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2018883873&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+    </iframe>
+</div>
+
+
+
+  <hr style="border: 1px dashed #0f0; margin: 40px 0;">
+
+  <div class="album">
+    <h3>02. 磁带循环 (2024)</h3>
+    <p>从损坏的磁带机中提取的噪音纹理。</p>
+    
+    <iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=3382216447/size=large/bgcol=333333/linkcol=0f0/tracklist=false/artwork=small/transparent=true/" seamless></iframe>
+  </div>
+
+</RawLayout>
+
+<style>
+  /* 针对这个页面的专属样式 */
+  .album {
+    margin-bottom: 50px;
+    border-left: 2px solid #0f0; /* 左侧加一条绿线装饰 */
+    padding-left: 20px;
+  }
+  
+  h3 {
+    margin-top: 0;
+  }
+</style>
