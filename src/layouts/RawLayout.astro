@@ -1,6 +1,9 @@
 ---
 // src/layouts/RawLayout.astro
-const { title = "SCALLOP" } = Astro.props;
+const {
+  title = "SCALLOP",
+  theme = "dark", // dark | paper
+} = Astro.props;
 
 const year = new Date().getFullYear();
 const pathname = Astro.url.pathname;
@@ -9,9 +12,12 @@ const isActive = (href: string) => {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/");
 };
+
+// 小工具：返回 aria-current 值（不 active 就不给属性）
+const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 ---
 
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme={theme}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -20,28 +26,28 @@ const isActive = (href: string) => {
   </head>
 
   <body id="TOP">
-  <div class="container">
-    <header class="site-header">
-      <div class="mast">
-        <a class="wordmark" href="/">SCALLOP</a>
-        <div class="muted">slowly growing construction</div>
-      </div>
+    <div class="container">
+      <header class="site-header">
+        <div class="mast">
+          <a class="wordmark" href="/" aria-current={currentIfActive("/")}>SCALLOP</a>
+          <div class="muted">slowly growing construction</div>
+        </div>
 
-      <nav class="nav nav-primary" aria-label="Primary">
-        <a href="/">home</a>
-        <a href="/works">works</a>
-        <a href="/music">sound</a>
-        <a href="/notes">notes</a>
-      </nav>
+        <nav class="nav nav-primary" aria-label="Primary">
+          <a href="/" aria-current={currentIfActive("/")}>home</a>
+          <a href="/works" aria-current={currentIfActive("/works")}>works</a>
+          <a href="/music" aria-current={currentIfActive("/music")}>sound</a>
+          <a href="/notes" aria-current={currentIfActive("/notes")}>notes</a>
+        </nav>
 
-      <nav class="nav nav-secondary" aria-label="Status">
-        <a href="/in-progress">in progress</a>
-        <a href="/latent">latent</a>
-        <a href="/debris">debris</a>
-      </nav>
-    </header>
+        <nav class="nav nav-secondary" aria-label="Status">
+          <a href="/in-progress" aria-current={currentIfActive("/in-progress")}>in progress</a>
+          <a href="/latent" aria-current={currentIfActive("/latent")}>latent</a>
+          <a href="/debris" aria-current={currentIfActive("/debris")}>debris</a>
+        </nav>
+      </header>
 
-    <main><slot /></main>
+      <main><slot /></main>
 
       <footer>
         &copy; {year} SCALLOP // slowly growing construction
@@ -51,13 +57,45 @@ const isActive = (href: string) => {
 </html>
 
 <style is:global>
+  /* -----------------------------
+    0) Theme tokens
+    默认 dark
+  ----------------------------- */
   :root{
     --bg: #050505;
     --fg: #d4d4d4;
     --muted: #888;
+
     --border: #333;
     --accent: #00ff41;
-    --panel: #0e0e0e;
+
+    --panel: transparent;
+
+    --code-bg: #111;
+    --code-fg: var(--accent);
+
+    --container-w: 750px;
+    --container-pad: 40px;
+
+    --font-body: 'Courier New', Courier, monospace, "PingFang SC";
+    --font-size: 16px;
+    --line-height: 1.55;
+    --letter-spacing: 0.02em;
+  }
+
+  /* paper 主题 */
+  html[data-theme="paper"]{
+    --bg: #f6f3ea;     /* 微暖纸色 */
+    --fg: #111;
+    --muted: #555;
+
+    --border: #bbb;
+    --accent: #1a49ff; /* 蓝色标题 */
+
+    --panel: transparent;
+
+    --code-bg: #eee;
+    --code-fg: #111;
   }
 
   * { box-sizing: border-box; }
@@ -65,14 +103,17 @@ const isActive = (href: string) => {
   body {
     background-color: var(--bg);
     color: var(--fg);
-    font-family: 'Courier New', Courier, monospace, "PingFang SC";
+    font-family: var(--font-body);
     margin: 0;
     padding: 20px;
-    font-size: 16px;
-    line-height: 1.55;
-    letter-spacing: 0.02em;
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing);
   }
 
+  /* -----------------------------
+    1) Typography
+  ----------------------------- */
   h1, h2, h3, h4, h5, h6, strong, b {
     color: var(--accent);
     font-weight: bold;
@@ -85,6 +126,11 @@ const isActive = (href: string) => {
     margin-bottom: 20px;
   }
 
+  .muted{ color: var(--muted); }
+
+  /* -----------------------------
+    2) Links
+  ----------------------------- */
   a {
     color: var(--accent);
     text-decoration: none;
@@ -94,44 +140,64 @@ const isActive = (href: string) => {
 
   a:hover {
     background-color: var(--accent);
-    color: #000;
+    color: var(--bg); /* ✅ 不写死 #000，让 paper 也成立 */
   }
-  
+
+  /* -----------------------------
+    3) Layout container
+  ----------------------------- */
   .container {
-    max-width: 750px;
+    max-width: var(--container-w);
     margin: 0 auto;
     border: 1px solid var(--border);
     border-top: 4px solid var(--accent);
-    padding: 40px;
+    padding: var(--container-pad);
     min-height: 90vh;
+    background: var(--panel);
   }
 
   .site-header{
     margin-bottom: 50px;
   }
 
+  .mast{
+    margin-bottom: 0 px;
+  }
+
+  .wordmark{
+    border-bottom: none; 
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .wordmark:hover{
+    background: transparent;
+    color: var(--accent);
+  }  
+
+  /* -----------------------------
+    4) Navigation
+  ----------------------------- */
   .nav{
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
   }
 
-  .nav.secondary{
-    margin-top: 10px;
+  .nav-secondary{
+    margin-top: 0px;
     opacity: 0.9;
   }
 
-  /* 让链接像“路标”而不是“菜单项” */
   .nav a::before { content: "[ "; }
   .nav a::after { content: " ]"; }
 
-  /* 当前页面的路标：更亮一点，但不做花哨高亮 */
   .nav a[aria-current="page"]{
-    border-bottom: 2px solid var(--accent);
+    border-bottom: none;
   }
 
-  .muted{ color: var(--muted); }
-
+  /* -----------------------------
+    5) Panels / blocks
+  ----------------------------- */
   .panel{
     background: transparent;
     border: 1px solid var(--border);
@@ -148,21 +214,27 @@ const isActive = (href: string) => {
     font-style: italic;
   }
 
+  /* -----------------------------
+    6) Code
+  ----------------------------- */
   code {
-    background-color: #111;
-    color: var(--accent);
+    background-color: var(--code-bg);
+    color: var(--code-fg);
     padding: 2px 6px;
     border-radius: 2px;
-    font-family: monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   }
 
   pre {
-    background-color: #111;
+    background-color: var(--code-bg);
     padding: 15px;
     border: 1px dashed var(--border);
     overflow-x: auto;
   }
 
+  /* -----------------------------
+    7) Media
+  ----------------------------- */
   main img {
     max-width: 100%;
     height: auto;
@@ -171,11 +243,14 @@ const isActive = (href: string) => {
     border: 1px solid var(--border);
   }
 
+  /* -----------------------------
+    8) Footer
+  ----------------------------- */
   footer {
     margin-top: 50px;
     border-top: 1px dashed var(--border);
     padding-top: 10px;
     font-size: 0.8em;
-    color: #666;
+    color: var(--muted);
   }
 </style>
