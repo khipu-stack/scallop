@@ -56,5 +56,5 @@ Stack Theory由信息驱动，其核心在于信息流（vectors of information�
 
 二者都将信息视为一种**可商品化且可控制的基础性资源**，信息流的控制成为新的经济剥削形式。
 
-![](/images/experiment01.png)
+![exp](/images/experiment01.png)
 

@@ -1,0 +1,188 @@
+---
+import RawLayout from '../layouts/RawLayout.astro';
+
+// 1. 获取全站内容
+// 使用 import.meta.glob (Vite 的标准写法) 来获取文件路径
+const notes = await Astro.glob('./notes/*.md');
+// const works = await Astro.glob('./works/*.md');
+const works = [];
+
+// 2. 构造碎片数组
+const fragments = [
+  // 转换笔记
+  ...notes.map(n => ({ 
+    title: n.frontmatter.title, 
+    url: n.url, 
+    type: 'NOTE',
+    date: n.frontmatter.date 
+  })),
+  // 转换作品
+  ...works.map(w => ({ 
+    title: w.frontmatter.title, 
+    url: w.url, 
+    type: 'ART',
+    thumbnail: w.frontmatter.thumbnail 
+  })),
+  // 手动添加一些固定入口
+  { title: "AUDIO_FREQ_EMITTER", url: "/music", type: "SYSTEM" },
+  { title: "GITHUB_REPO", url: "https://github.com/khipu-stack/scallop", type: "LINK" },
+];
+---
+
+<RawLayout title="CHAOS LAB // SCALLOP">
+  
+  <div id="chaos-zone">
+    
+    <div class="system-status">
+      NON-LINEAR MODE ACTIVATED<br/>
+      OBJECTS FOUND: {fragments.length}
+    </div>
+
+    {fragments.map((item) => (
+      <a href={item.url} class={`shard type-${item.type}`}>
+        <div class="meta">[{item.type}]</div>
+        <div class="content">
+          {item.type === 'ART' && item.thumbnail ? (
+            <img src={item.thumbnail} alt="" class="shard-img"/>
+          ) : null}
+          <span class="title">{item.title}</span>
+        </div>
+      </a>
+    ))}
+
+  </div>
+
+</RawLayout>
+
+<script>
+  // ---------------------------------------------------------
+  // 混乱引擎：负责随机分布
+  // ---------------------------------------------------------
+  const shards = document.querySelectorAll('.shard');
+  const zone = document.getElementById('chaos-zone');
+
+  shards.forEach((shard) => {
+    // 1. 随机位置 (留出 10% 的边距防止溢出屏幕)
+    const x = Math.random() * 80 + 5; // 5% 到 85%
+    const y = Math.random() * 80 + 10; // 10% 到 90%
+    
+    // 2. 随机旋转 (-15度 到 15度)
+    const rot = (Math.random() - 0.5) * 30;
+    
+    // 3. 随机层级
+    const z = Math.floor(Math.random() * 10);
+
+    // 应用样式 (转换为 HTMLElement 才能访问 style)
+    const el = shard as HTMLElement;
+    el.style.left = `${x}%`;
+    el.style.top = `${y}%`;
+    el.style.transform = `rotate(${rot}deg)`;
+    el.style.zIndex = `${z}`;
+
+    // 4. 鼠标交互：移上去时自动置顶并扶正
+    el.addEventListener('mouseenter', () => {
+      el.style.zIndex = '999';
+      el.style.transform = 'scale(1.1) rotate(0deg)';
+      el.style.border = '1px solid #00ff41';
+    });
+
+    el.addEventListener('mouseleave', () => {
+      el.style.zIndex = `${z}`;
+      el.style.transform = `rotate(${rot}deg)`;
+      el.style.border = '';
+    });
+  });
+</script>
+
+<style>
+  /* 强制覆盖 RawLayout 的全局样式 
+    我们要打破那个 800px 的限制
+  */
+  :global(.container) {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden; /* 防止出现滚动条 */
+  }
+  
+  /* 隐藏掉 Layout 自带的 header/footer，只留纯粹的混沌 */
+  :global(nav), :global(footer) {
+    display: none;
+  }
+
+  /* 提示文字 */
+  .system-status {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: monospace;
+    color: #333;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* 碎片基础样式 */
+  .shard {
+    position: absolute; /* 绝对定位是散落的关键 */
+    display: inline-block;
+    background: #000;
+    border: 1px solid #333;
+    padding: 10px;
+    color: #d4d4d4;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+    max-width: 200px;
+  }
+
+  .meta {
+    font-size: 0.6em;
+    color: #00ff41;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  .title {
+    font-size: 0.9em;
+    font-weight: bold;
+    word-break: break-all;
+  }
+
+  /* 针对不同类型的特殊样式 */
+  .type-ART {
+    border: 1px solid #666;
+  }
+  .shard-img {
+    width: 100%;
+    height: auto;
+    filter: grayscale(100%);
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .type-SYSTEM {
+    border: 2px double #00ff41;
+    color: #00ff41;
+  }
+
+  /* 移动端适配：手机上如果太乱，可以强制变成单列，或者保留混乱但缩小尺寸 */
+  @media (max-width: 600px) {
+    .shard {
+      position: relative !important; /* 手机上恢复流式布局，不然没法点 */
+      display: block;
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+      margin: 10px auto;
+      width: 90%;
+      max-width: none;
+    }
+    #chaos-zone {
+      overflow-y: auto;
+      padding: 50px 0;
+    }
+  }
+</style>

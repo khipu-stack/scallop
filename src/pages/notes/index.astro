@@ -4,6 +4,10 @@ import RawLayout from '../../layouts/RawLayout.astro';
 // 这行神奇的代码会自动找到当前文件夹下所有的 .md 文章
 const allNotes = await Astro.glob('./*.md');
 
+const sortedNotes = allNotes.sort((a, b) => {
+  return new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf();
+});
+
 // 让文章按发布顺序倒序排列（如果有日期的话），这里暂时不排序，直接列出
 ---
 
@@ -13,7 +17,7 @@ const allNotes = await Astro.glob('./*.md');
   <p>共收录 {allNotes.length} 篇文档。</p>
 
   <ul class="note-list">
-    {allNotes.map((note) => (
+    {sortedNotes.map((note) => (
       <li>
         <span class="date">[ LOG ]</span>
         <a href={note.url}>{note.frontmatter.title}</a>
