@@ -1,6 +1,8 @@
 ---
 layout: ../../layouts/RawLayout.astro
 title: "2026-01-10: 第一次信号传输"
+date: 2026-01-10
+
 ---
 
 # 信号测试

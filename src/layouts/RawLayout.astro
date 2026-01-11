@@ -1,6 +1,14 @@
 ---
 // src/layouts/RawLayout.astro
-const { title } = Astro.props;
+const { title = "SCALLOP" } = Astro.props;
+
+const year = new Date().getFullYear();
+const pathname = Astro.url.pathname;
+
+const isActive = (href: string) => {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/");
+};
 ---
 
 <html lang="zh-CN">
@@ -8,136 +16,166 @@ const { title } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
+    <meta name="description" content="slowly growing construction // works / sound / notes" />
   </head>
-  <body>
-    <div class="container">
-      <nav>
-        <a href="/">[ 首页 ]</a>
-        <a href="/music">[ 声音 ]</a>
-        <a href="/notes">[ 笔记 ]</a>
+
+  <body id="TOP">
+  <div class="container">
+    <header class="site-header">
+      <div class="mast">
+        <a class="wordmark" href="/">SCALLOP</a>
+        <div class="muted">slowly growing construction</div>
+      </div>
+
+      <nav class="nav nav-primary" aria-label="Primary">
+        <a href="/">home</a>
+        <a href="/works">works</a>
+        <a href="/music">sound</a>
+        <a href="/notes">notes</a>
       </nav>
-      
-      <main>
-        <slot />
-      </main>
+
+      <nav class="nav nav-secondary" aria-label="Status">
+        <a href="/in-progress">in progress</a>
+        <a href="/latent">latent</a>
+        <a href="/debris">debris</a>
+      </nav>
+    </header>
+
+    <main><slot /></main>
 
       <footer>
-        &copy; 2026 MAXIMUS-SCALLOP // RAW DATA
+        &copy; {year} SCALLOP // slowly growing construction
       </footer>
     </div>
   </body>
 </html>
 
 <style is:global>
-  /* 1. 全局重置 */
+  :root{
+    --bg: #050505;
+    --fg: #d4d4d4;
+    --muted: #888;
+    --border: #333;
+    --accent: #00ff41;
+    --panel: #0e0e0e;
+  }
+
   * { box-sizing: border-box; }
 
-  /* 2. 核心基调：黑底，灰字（不再是绿字），增加行高 */
   body {
-    background-color: #050505; /* 稍微柔和一点点的黑，不完全死黑 */
-    color: #d4d4d4;            /* 正文改成浅灰色，非常护眼 */
+    background-color: var(--bg);
+    color: var(--fg);
     font-family: 'Courier New', Courier, monospace, "PingFang SC";
     margin: 0;
     padding: 20px;
     font-size: 16px;
-    line-height: 1.5;          /* 增加行距，让文字呼吸 */
-    letter-spacing: 0.02em;    /* 稍微拉开一点字间距 */
+    line-height: 1.55;
+    letter-spacing: 0.02em;
   }
 
-  /* 3. 强调色：把绿色只留给重要元素 */
   h1, h2, h3, h4, h5, h6, strong, b {
-    color: #00ff41; /* 经典的黑客绿，比纯绿 #0f0 稍微耐看一点点 */
+    color: var(--accent);
     font-weight: bold;
   }
 
   h1, h2, h3 {
-    border-bottom: 2px solid #00ff41;
+    border-bottom: 2px solid var(--accent);
     padding-bottom: 10px;
     margin-top: 40px;
     margin-bottom: 20px;
   }
 
-  /* 4. 链接样式 */
   a {
-    color: #00ff41;
+    color: var(--accent);
     text-decoration: none;
-    border-bottom: 1px solid #00ff41;
-    transition: all 0.2s;
-  }
-  
-  a:hover {
-    background-color: #00ff41;
-    color: #000;
+    border-bottom: 1px solid var(--accent);
+    transition: all 0.15s;
   }
 
-  /* 5. 容器布局 */
+  a:hover {
+    background-color: var(--accent);
+    color: #000;
+  }
+  
   .container {
-    max-width: 750px; /* 稍微收窄一点，阅读体验更好 */
+    max-width: 750px;
     margin: 0 auto;
-    border: 1px solid #333; /* 外框改成深灰色，不再那么刺眼 */
-    border-top: 4px solid #00ff41; /* 只在顶部保留绿色硬边 */
-    padding: 40px; /* 增加内边距 */
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent);
+    padding: 40px;
     min-height: 90vh;
   }
 
-  /* 6. 修复那个丑陋的灰色块块 (Blockquote / 引用) */
+  .site-header{
+    margin-bottom: 50px;
+  }
+
+  .nav{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav.secondary{
+    margin-top: 10px;
+    opacity: 0.9;
+  }
+
+  /* 让链接像“路标”而不是“菜单项” */
+  .nav a::before { content: "[ "; }
+  .nav a::after { content: " ]"; }
+
+  /* 当前页面的路标：更亮一点，但不做花哨高亮 */
+  .nav a[aria-current="page"]{
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .muted{ color: var(--muted); }
+
+  .panel{
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    margin: 20px 0;
+  }
+
   blockquote {
-    background: transparent;   /* 去掉背景色 */
-    border-left: 4px solid #00ff41; /* 只留左边一条绿线 */
+    background: transparent;
+    border-left: 4px solid var(--accent);
     margin: 30px 0;
     padding-left: 20px;
-    color: #888; /* 引用文字变暗一点，形成对比 */
+    color: var(--muted);
     font-style: italic;
   }
 
-  /* 7. 修复代码块样式 (如果有用到 code) */
   code {
     background-color: #111;
-    color: #00ff41;
+    color: var(--accent);
     padding: 2px 6px;
     border-radius: 2px;
     font-family: monospace;
   }
-  
+
   pre {
     background-color: #111;
     padding: 15px;
-    border: 1px dashed #333;
+    border: 1px dashed var(--border);
     overflow-x: auto;
   }
 
-  /* 8. 图片自适应（保留之前的设置） */
   main img {
     max-width: 100%;
     height: auto;
     display: block;
     margin: 30px auto;
-    border: 1px solid #333; /* 图片边框也改成深灰 */
-  }
-  
-  /* 9. 列表样式 */
-  ul, ol {
-    padding-left: 20px;
-  }
-  li {
-    margin-bottom: 10px; /* 列表项之间拉开距离 */
-  }
-  li::marker {
-    color: #00ff41; /* 列表前面的小圆点变成绿色 */
+    border: 1px solid var(--border);
   }
 
   footer {
     margin-top: 50px;
-    border-top: 1px dashed #333;
+    border-top: 1px dashed var(--border);
     padding-top: 10px;
     font-size: 0.8em;
     color: #666;
-    /* text-align: center; */
-  }
-  
-  /* 导航栏调整 */
-  nav {
-    margin-bottom: 60px;
-    /* text-align: right; 导航靠右，更有设计感 */
   }
 </style>
