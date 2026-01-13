@@ -2,7 +2,7 @@
 // src/layouts/RawLayout.astro
 const {
   title = "SCALLOP",
-  theme = "dark", // dark | paper
+  theme = "paper", // dark | paper
 } = Astro.props;
 
 const year = new Date().getFullYear();
@@ -13,16 +13,21 @@ const isActive = (href: string) => {
   return pathname === href || pathname.startsWith(href + "/");
 };
 
-// 小工具：返回 aria-current 值（不 active 就不给属性）
 const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 ---
 
-<html lang="zh-CN" data-theme={theme}>
+<html lang="en" data-theme={theme}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content="slowly growing construction // works / sound / notes" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet"
+    />
   </head>
 
   <body id="TOP">
@@ -74,13 +79,14 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     --code-bg: #111;
     --code-fg: var(--accent);
 
-    --container-w: 750px;
-    --container-pad: 40px;
+    --container-w: 88ch; /*750px;*/
+    --container-pad: clamp(20px, 4vw, 52px);/*40px;*/
 
-    --font-body: 'Courier New', Courier, monospace, "PingFang SC";
+    /* --font-body: 'Courier New', Courier, monospace, "PingFang SC"; */
+    --font-body: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, "PingFang SC";
     --font-size: 16px;
     --line-height: 1.55;
-    --letter-spacing: 0.02em;
+    --letter-spacing: 0em;
   }
 
   /* paper 主题 */
@@ -109,6 +115,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     font-size: var(--font-size);
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
+    text-align: left;
   }
 
   /* -----------------------------
@@ -140,7 +147,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 
   a:hover {
     background-color: var(--accent);
-    color: var(--bg); /* ✅ 不写死 #000，让 paper 也成立 */
+    color: var(--bg); 
   }
 
   /* -----------------------------
@@ -149,7 +156,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
   .container {
     max-width: var(--container-w);
     margin: 0 auto;
-    border: 1px solid var(--border);
+    border: none; /* 1px solid var(--border); */
     border-top: 4px solid var(--accent);
     padding: var(--container-pad);
     min-height: 90vh;
@@ -157,11 +164,13 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
   }
 
   .site-header{
-    margin-bottom: 50px;
+    padding-bottom: 24px;
+    /*border-bottom: 1px solid sandybrown var(--border)*/
+    margin-bottom: 36px; /*50 before*/
   }
 
   .mast{
-    margin-bottom: 0 px;
+    margin-bottom: 0 ;
   }
 
   .wordmark{
@@ -214,22 +223,76 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     font-style: italic;
   }
 
-  /* -----------------------------
+/* -----------------------------
     6) Code
   ----------------------------- */
-  code {
-    background-color: var(--code-bg);
-    color: var(--code-fg);
-    padding: 2px 6px;
-    border-radius: 2px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  
+  /* A. Inline Code)*/
+  :not(pre) > code {
+    background: var(--code-bg);
+    color: var(--accent); 
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    font-family: var(--font-body);
+    font-size: 0.9em;
+    border: 1px solid transparent; 
   }
 
+  /* B. Pre Block */
   pre {
-    background-color: var(--code-bg);
-    padding: 15px;
-    border: 1px dashed var(--border);
+    background: #111; /* var(--code-bg) */
+    
+    padding: 20px;
+    border: 1px solid var(--border);
+    
+    border-left: 4px solid var(--border); 
+    
+    border-radius: 4px;
     overflow-x: auto;
+    
+    line-height: 1.6;
+    font-size: 0.9em; 
+    tab-size: 2;
+  }
+
+  /* for Paper Theme */
+  html[data-theme="paper"] pre {
+    background: #fcfcfc;
+    border-color: #ccc;
+    border-left-color: var(--accent);
+  }
+
+  /* C. Code inside Pre */
+  pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-family: var(--font-body); 
+    color: inherit; 
+    display: inline-block; 
+    min-width: 100%;
+  }
+
+  /* D. Webkit Scroll */
+  pre::-webkit-scrollbar {
+    height: 8px; 
+  }
+  
+  pre::-webkit-scrollbar-track {
+    background: var(--bg);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  
+  pre::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  pre::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
   }
 
   /* -----------------------------
@@ -253,4 +316,23 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     font-size: 0.8em;
     color: var(--muted);
   }
+
+  /* -----------------------------
+    9) Content Alignment
+  ----------------------------- */
+  main p {
+    text-align: justify;
+    
+    overflow-wrap: break-word; 
+
+    -webkit-hyphens: auto;
+    hyphens: auto;
+
+    letter-spacing: -0.01em; 
+  }
+
+  main li {
+    text-align: left; 
+  }
+
 </style>
