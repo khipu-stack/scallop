@@ -188,8 +188,15 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
   ----------------------------- */
   .nav{
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 12px;
+    overflow-x: auto;        
+    -webkit-overflow-scrolling: touch; 
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-secondary{
@@ -227,7 +234,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     6) Code
   ----------------------------- */
   
-  /* A. Inline Code)*/
+  /* A. Inline Code*/
   :not(pre) > code {
     background: var(--code-bg);
     color: var(--accent); 
