@@ -4,8 +4,8 @@
 - **类型**: 个人作品集 / 数字博客 / 实验音乐
 - **核心目标**: 展示音视频作品，发布文章/实验/笔记
 - **当前状态**: 已上线 (Deployed)
-- **Live URL**: https://scallop-gdu.pages.dev
-- **Repo**: GitHub (khipu-stack/scallop)
+- **Live URL**: [https://scallop-gdu.pages.dev](https://scallop-gdu.pages.dev)
+- **Repo**: [GitHub (khipu-stack/scallop)](https://github.com/khipu-stack/scallop)
 
 ## 2. 技术栈 (Tech Stack)
 - **框架**: Astro (v4+), 使用 `npm create astro@latest -- --template minimal` 初始化。
@@ -33,10 +33,10 @@
 ## 4. 文件结构与内容策略
 - **src/layouts/RawLayout.astro**: 全局布局模版，包含 `<slot />` 和全局 CSS (`<style is:global>`)。
 - **src/pages/index.astro**: 首页，硬编码的导航和简介。
-- **src/pages/music.astro**: 音乐页。使用 `<iframe>` 嵌入 Bandcamp/
+- **src/pages/music.astro**: 音乐页。使用 `<iframe>` 嵌入 Bandcamp 播放器。
 - **src/pages/notes/**: 写作系统。
   - `*.md` 文件: 实际的文章内容，Frontmatter 指定 `layout`.
-  - `index.astro`: 自动抓取所有 `.md` 文件并生成列表。
+  - `index.astro`: 使用 `Astro.glob` 抓取所有 `.md` 文件并生成列表。
 - **public/images/**: 存放静态图片，Markdown 中通过 `/images/filename.jpg` 引用。
 
 ## 5. 开发工作流
@@ -44,4 +44,3 @@
 2. 终端运行 `npm run dev` 预览。
 3. Git 提交: `git push origin main` 。
 4. Cloudflare Pages 自动触发构建并发布。
-
