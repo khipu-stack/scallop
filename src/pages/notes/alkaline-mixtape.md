@@ -23,12 +23,13 @@ The structure is hierarchical (作为诅咒的必要解码方式): at the top le
 
 
 ## Sounds contributed by
-*liu hanwen, ajiao, ashui, huazi, zhao kai, keyu, lü peng, stevelongoriaa, li xiangwei, xuanni, yutong, yz, xiuyuan*  
+*[ajiao](https://www.instagram.com/ajiaoajiaoajiaoajiao/), huazi, [keyu](https://www.instagram.com/keyu_u_u/), [Liu Hanwen](https://www.instagram.com/liuhanwen9918/), [Peng](https://www.instagram.com/suanmuzhipeng/), [Li Xiangwei](https://www.instagram.com/lixiangwei_/), [ResBina](https://www.instagram.com/res.binaa/), [stevelongoriaa](https://www.instagram.com/stevelongoriaa/), [xuanni](https://www.instagram.com/xuanni_space/), [xiuyuan](https://www.instagram.com/yuanxiushen/), [yutong](https://www.instagram.com/gaystaatspo/), [yz](https://www.instagram.com/aiisisssiaaais/)*  
 
 <details>
   <summary><strong>source list</strong></summary>
 
   <!-- Option A: 人名 + 一句素材描述（更好看） -->
+  - adding...
   - ajiao — [field recording / sketch / live fragment]
   - huazi — [rain / bus / street]
   - yutong — [drum / glitch]
@@ -78,14 +79,14 @@ The structure is hierarchical (作为诅咒的必要解码方式): at the top le
 
 ## Cover
 
-For the cover image, **ajiao** approached it as an experiment rather than a task: trying methods without a fixed goal, then letting accidents suggest the next decision. He described the hardest part as judging an abstract object without a clear standard: deciding when to stop, or choosing one outcome among many. The final cover is a typographic extraction from the project’s file names, iterated through multiple versions and adjusted through back-and-forth.
+For the cover image, [**ajiao**](https://www.instagram.com/ajiaoajiaoajiaoajiao/) approached it as an experiment rather than a task: trying methods without a fixed goal, then letting accidents suggest the next decision. He described the hardest part as judging an abstract object without a clear standard: deciding when to stop, or choosing one outcome among many. The final cover is a typographic extraction from the project’s file names, iterated through multiple versions and adjusted through back-and-forth.
 <br>
 
 ![Alkaline Mixtape Cover](/images/alkaline-mixtape-cover.png)
 <br>
 
 ## Extended Mix
-Southern Alkaline member **Yutong** later made an extended mix ([freebasing coded 1](https://drive.google.com/file/d/1NKdPvBWkvpB__xQxLebHTDB7B0vT33Cr/view?usp=drivesdk), 1h06m), which folds this mixtape into its second half and was described as "pure madness".
+Southern Alkaline member [**Yutong**](https://www.instagram.com/gaystaatspo/) later made an extended mix ([freebasing coded 1](https://drive.google.com/file/d/1NKdPvBWkvpB__xQxLebHTDB7B0vT33Cr/view?usp=drivesdk), 1h06m), which folds this mixtape into its second half and was described as "pure madness".
 <br>
 <br>
 
