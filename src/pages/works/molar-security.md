@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/RawLayout.astro
 title: "Molar Security"
-date: 2025-01-11
+date: "2025-01-11"
 type: "Hybrid Media Video"
 thumbnail: "/images/molar-thumb.png"
 description: "A Video Essay examining AI warfare systems, digital identity, and planetary-scale computation."
@@ -30,7 +30,7 @@ description: "A Video Essay examining AI warfare systems, digital identity, and 
 
 **Molar Security** is a Hybrid Media Video Essay that fuses AI-generated user profiles with military targeting interfaces to critique the politics of algorithmic warfare and data commodification. It reflects on digital complicity, emotional extraction, and the blurred boundary between security and surveillance.
 
-I provided my social media feeds and browsing records to AI system, allowing it to generate a log based on my online behavior. This AI-generated persona, composed of my residual digital traces, was then transformed into speech through AI voice-cloning, merging virtual identity with noise-generated-voices.
+I provided my social media feeds and browsing records to an AI system, allowing it to generate a log based on my online behavior. This AI-generated persona, composed of my residual digital traces, was then transformed into speech through AI voice-cloning, merging virtual identity with noise-generated-voices.
 
 In an AI-driven landscape, this work examines Israel's military use of artificial intelligence, which generates target lists by analyzing phone signals, social media interactions, and satellite imagery. By combining screenshots and interfaces from actual military AI targeting systems, such as "The Gospel," I explore these inherent biases, double standards, and contradictions within AI warfare systems, which are designed to "tolerate a degree of collateral damage".
 
@@ -62,4 +62,3 @@ For this video, I used an experimental sound-synthesis app "sketch synth" inspir
 ![Video Still](/images/molar-still-03.png)
 
 Through this project, I confront my own complicity as a provider of “surplus data” within the system, raising questions about agency, safety, and ethics in the AI-mediated world we inhabit.
-
