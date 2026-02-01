@@ -1,0 +1,86 @@
+---
+import RawLayout from '../../layouts/RawLayout.astro';
+
+const allProgress = await Astro.glob('./*.md');
+
+const sortedProgress = allProgress.sort((a, b) => {
+  const ao = a.frontmatter.order ?? 9999;
+  const bo = b.frontmatter.order ?? 9999;
+  if (ao !== bo) return ao - bo;
+  return a.file.localeCompare(b.file);
+});
+---
+
+<RawLayout title="in progress // SCALLOP">
+  <h1>in progress</h1>
+  <p class="muted">what I'm currently building / editing / compiling.</p>
+
+  {sortedProgress.length === 0 ? (
+    <div class="panel muted">empty for now.</div>
+  ) : (
+    <ol class="progress-list">
+      {sortedProgress.map((item) => (
+        <li class="progress-item">
+          <div class="row">
+            <span class="status">[{item.frontmatter.status ?? 'moving'}]</span>
+            <a href={item.url} class="title">{item.frontmatter.title}</a>
+          </div>
+          {item.frontmatter.focus ? (
+            <div class="meta">focus: {item.frontmatter.focus}</div>
+          ) : null}
+          {item.frontmatter.next ? (
+            <div class="meta">next: {item.frontmatter.next}</div>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  )}
+</RawLayout>
+
+<style>
+  .progress-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+  }
+
+  .progress-item {
+    border-left: 3px solid #222;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    background: linear-gradient(90deg, #090909, transparent);
+  }
+
+  .progress-item:hover {
+    border-left-color: #00ff41;
+    background: linear-gradient(90deg, #0f0f0f, transparent);
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  .status {
+    font-size: 0.75em;
+    color: #00ff41;
+  }
+
+  .title {
+    border-bottom: none;
+    font-weight: 700;
+  }
+
+  .title:hover {
+    background: transparent;
+    color: #00ff41;
+  }
+
+  .meta {
+    color: #888;
+    font-size: 0.85em;
+    margin-top: 6px;
+  }
+</style>

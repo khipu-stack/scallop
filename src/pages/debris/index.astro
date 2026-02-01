@@ -1,0 +1,108 @@
+---
+import RawLayout from '../../layouts/RawLayout.astro';
+
+const allDebris = await Astro.glob('./*.md');
+
+const sortedDebris = allDebris.sort((a, b) => {
+  const ao = a.frontmatter.order ?? 9999;
+  const bo = b.frontmatter.order ?? 9999;
+  if (ao !== bo) return ao - bo;
+  return a.file.localeCompare(b.file);
+});
+---
+
+<RawLayout title="debris // SCALLOP">
+  <h1>debris</h1>
+  <p class="muted">fragments, leftovers, misreads.</p>
+
+  {sortedDebris.length === 0 ? (
+    <div class="panel muted">empty for now.</div>
+  ) : (
+    <div class="debris-grid">
+      {sortedDebris.map((item) => (
+        <article class="debris-card">
+          <div class="debris-head">
+            <span class="pill">[FRAGMENT]</span>
+            {item.frontmatter.source ? (
+              <span class="source">{item.frontmatter.source}</span>
+            ) : null}
+          </div>
+          <h3>
+            <a href={item.url}>{item.frontmatter.title}</a>
+          </h3>
+          {item.frontmatter.summary ? (
+            <p class="summary">{item.frontmatter.summary}</p>
+          ) : null}
+          {Array.isArray(item.frontmatter.tags) ? (
+            <div class="tags">
+              {item.frontmatter.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          ) : null}
+        </article>
+      ))}
+    </div>
+  )}
+</RawLayout>
+
+<style>
+  .debris-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+    margin-top: 28px;
+  }
+
+  .debris-card {
+    border: 1px dashed #333;
+    padding: 14px;
+    background: #070707;
+    box-shadow: 0 0 0 2px transparent;
+    transition: all 0.2s;
+  }
+
+  .debris-card:hover {
+    border-color: #00ff41;
+    box-shadow: 2px 2px 0 #00ff41;
+  }
+
+  .debris-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .pill {
+    font-size: 0.7em;
+    color: #00ff41;
+    border: 1px solid #00ff41;
+    padding: 2px 6px;
+  }
+
+  .source {
+    font-size: 0.7em;
+    color: #777;
+  }
+
+  .summary {
+    color: #aaa;
+    font-size: 0.9em;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .tag {
+    font-size: 0.7em;
+    border: 1px solid #333;
+    padding: 2px 6px;
+    color: #777;
+  }
+</style>

@@ -12,14 +12,13 @@ const sortedNotes = allNotes.sort((a, b) => {
 ---
 
 <RawLayout title="notes // SCALLOP">
-  <h1>观察日志</h1>
+  <h1>notes</h1>
   
-  <p>共收录 {allNotes.length} 篇文档。</p>
+  <p>archived: {allNotes.length}</p>
 
   <ul class="note-list">
     {sortedNotes.map((note) => (
       <li>
-        <span class="date">[ LOG ]</span>
         <a href={note.url}>{note.frontmatter.title}</a>
       </li>
     ))}
@@ -32,21 +31,12 @@ const sortedNotes = allNotes.sort((a, b) => {
     list-style: none; /* 去掉默认的小圆点 */
     padding: 0;
     margin-top: 40px;
+    border: none;
   }
 
   .note-list li {
     margin-bottom: 15px;
-    border-bottom: 1px dotted #333; /* 只有一点点微弱的分割线 */
     padding-bottom: 5px;
-  }
-
-  .note-list li:hover {
-    border-bottom: 1px solid #0f0; /* 鼠标放上去变亮 */
-  }
-
-  .date {
-    color: #666;
-    margin-right: 10px;
-    font-size: 0.8em;
+    border: none;
   }
 </style>

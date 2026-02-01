@@ -28,20 +28,29 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
       href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
     rel="stylesheet"
     />
+    <script is:inline>
+      const saved = localStorage.getItem("theme");
+      const sys = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = saved || (sys ? "dark" : "paper");
+      document.documentElement.setAttribute("data-theme", theme);
+    </script>
   </head>
 
   <body id="TOP">
     <div class="container">
       <header class="site-header">
         <div class="mast">
-          <a class="wordmark" href="/" aria-current={currentIfActive("/")}>SCALLOP</a>
-          <div class="muted">slowly growing construction</div>
+          <div>
+            <a class="wordmark" href="/" aria-current={currentIfActive("/")}>SCALLOP</a>
+            <div class="muted">slowly growing construction</div>
+          </div>
+          <button id="theme-toggle" type="button" aria-label="Toggle theme">◐</button>
         </div>
 
         <nav class="nav nav-primary" aria-label="Primary">
           <a href="/" aria-current={currentIfActive("/")}>home</a>
           <a href="/works" aria-current={currentIfActive("/works")}>works</a>
-          <a href="/music" aria-current={currentIfActive("/music")}>sound</a>
+          <a href="/music" aria-current={currentIfActive("/music")}>sounds</a>
           <a href="/notes" aria-current={currentIfActive("/notes")}>notes</a>
         </nav>
 
@@ -54,10 +63,24 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 
       <main><slot /></main>
 
+      <!--
       <footer>
         &copy; {year} SCALLOP // slowly growing construction
       </footer>
+      -->
     </div>
+    <script is:inline>
+      const btn = document.getElementById("theme-toggle");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          const doc = document.documentElement;
+          const current = doc.getAttribute("data-theme");
+          const next = current === "paper" ? "dark" : "paper";
+          doc.setAttribute("data-theme", next);
+          localStorage.setItem("theme", next);
+        });
+      }
+    </script>
   </body>
 </html>
 
@@ -100,7 +123,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 
     --panel: transparent;
 
-    --code-bg: #eee;
+    --code-bg: #e9e4da;
     --code-fg: #111;
   }
 
@@ -127,7 +150,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
   }
 
   h1, h2, h3 {
-    border-bottom: 2px solid var(--accent);
+    /* border-bottom: 2px solid var(--accent); */
     padding-bottom: 10px;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -151,6 +174,26 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
   }
 
   /* -----------------------------
+    2.5) Code blocks
+  ----------------------------- */
+  pre, code {
+    background: var(--code-bg);
+    color: var(--code-fg);
+  }
+
+  pre {
+    padding: 14px;
+    border: 1px solid var(--border);
+    overflow: auto;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2),
+      inset 0 0 20px rgba(0,0,0,0.03);
+  }
+
+  code {
+    padding: 2px 4px;
+  }
+
+  /* -----------------------------
     3) Layout container
   ----------------------------- */
   .container {
@@ -159,6 +202,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     border: none; /* 1px solid var(--border); */
     border-top: 4px solid var(--accent);
     padding: var(--container-pad);
+    padding-top: 11px;
     min-height: 90vh;
     background: var(--panel);
   }
@@ -167,10 +211,14 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     padding-bottom: 24px;
     /*border-bottom: 1px solid sandybrown var(--border)*/
     margin-bottom: 36px; /*50 before*/
+    font-size: 0.8em; /* Scale down header text */
   }
 
   .mast{
-    margin-bottom: 0 ;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 
   .wordmark{
@@ -349,6 +397,25 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 
   main li {
     text-align: left; 
+  }
+
+  /* -----------------------------
+    10) Theme Toggle
+  ----------------------------- */
+  #theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 1.2em; /* Slightly larger for the symbol */
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+  #theme-toggle:hover {
+    color: var(--accent);
+    transform: rotate(15deg); /* playful interaction */
   }
 
 </style>
