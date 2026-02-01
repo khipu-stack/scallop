@@ -1,0 +1,100 @@
+---
+import RawLayout from './RawLayout.astro';
+
+const fm = Astro.props.frontmatter ?? {};
+
+const title = fm.title ?? 'untitled';
+const year = fm.year ?? (fm.date ? Number(String(fm.date).slice(0, 4)) : undefined);
+const summary = fm.summary;
+const readMore = fm.readMore;
+const external = fm.external;
+
+// 多平台：优先 embedSrc（SoundCloud/Bandcamp/IA 任意 iframe src 都行）
+// 兼容：如果你还想用 iaIdentifier，也支持
+const embedSrc = fm.embedSrc ?? (fm.iaIdentifier ? `https://archive.org/embed/${fm.iaIdentifier}` : null);
+const embedHeight = fm.embedHeight ?? 140;
+---
+
+<RawLayout title={`${title} // sounds // SCALLOP`}>
+  <article class="entry">
+    <header class="head">
+      <h1>{title}</h1>
+      {year ? <div class="year">{year}</div> : null}
+    </header>
+
+    {summary ? <p class="summary">{summary}</p> : null}
+
+    {embedSrc ? (
+      <div class="player">
+        <iframe
+          width="100%"
+          height={embedHeight}
+          scrolling="no"
+          frameborder="0"
+          src={embedSrc}
+          allow="autoplay; encrypted-media; fullscreen"
+        ></iframe>
+      </div>
+    ) : null}
+
+    {(external || readMore) ? (
+      <div class="links">
+        {external ? (
+          <a href={external} target="_blank" rel="noreferrer">Open</a>
+        ) : null}
+        {readMore ? (
+          <a href={readMore}>Notes</a>
+        ) : null}
+      </div>
+    ) : null}
+
+    <div class="content">
+      <slot />
+    </div>
+  </article>
+</RawLayout>
+
+<style>
+  :global(main){ max-width: 760px; }
+
+  .head{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin-top: 6px;
+  }
+  h1{ margin: 0; }
+  .year{ opacity: .6; }
+
+  .summary{
+    margin: 10px 0 0;
+    line-height: 1.55;
+    opacity: .85;
+    max-width: 68ch;
+  }
+
+  .player{
+    margin-top: 14px;
+    border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+    border-radius: 10px;
+    overflow: hidden;
+    background: color-mix(in srgb, currentColor 3%, transparent);
+  }
+
+  .links{
+    margin-top: 10px;
+    display: flex;
+    gap: 14px;
+    opacity: .75;
+  }
+  .links a{
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .content{ margin-top: 18px; }
+</style>
