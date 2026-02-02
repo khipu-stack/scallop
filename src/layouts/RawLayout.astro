@@ -48,14 +48,13 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
         </div>
 
         <nav class="nav nav-primary" aria-label="Primary">
-          <a href="/" aria-current={currentIfActive("/")}>home</a>
+          <a href="/" aria-current={currentIfActive("/")}>~</a>
           <a href="/works" aria-current={currentIfActive("/works")}>works</a>
           <a href="/sounds" aria-current={currentIfActive("/sounds")}>sounds</a>
-          <a href="/notes" aria-current={currentIfActive("/notes")}>notes</a>
         </nav>
 
         <nav class="nav nav-secondary" aria-label="Status">
-          <a href="/in-progress" aria-current={currentIfActive("/in-progress")}>in progress</a>
+          <a href="/notes" aria-current={currentIfActive("/notes")}>notes</a>
           <a href="/latent" aria-current={currentIfActive("/latent")}>latent</a>
           <a href="/debris" aria-current={currentIfActive("/debris")}>debris</a>
         </nav>
