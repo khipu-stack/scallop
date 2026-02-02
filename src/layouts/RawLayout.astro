@@ -151,6 +151,10 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     font-weight: bold;
   }
 
+  h1, {
+    border-bottom: 2px solid var(--accent);
+  }
+
   h1, h2, h3 {
     /* border-bottom: 2px solid var(--accent); */
     padding-bottom: 10px;
@@ -341,12 +345,16 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     border: 0 !important;
   }  
 
+  /*
   html[data-theme="paper"] pre.astro-code span[style*="--shiki-light"]{
     color: var(--shiki-light) !important;
   }
   html[data-theme="dark"] pre.astro-code span[style*="--shiki-dark"]{
     color: var(--shiki-dark) !important;
   }
+  */
+
+
 
   /* Scrollbar */
   pre::-webkit-scrollbar{ height: 8px; }
