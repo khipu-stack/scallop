@@ -29,12 +29,18 @@ The structure is hierarchical (作为诅咒的必要解码方式): at the top le
   <summary><strong>source list</strong></summary>
 
   <!-- Option A: 人名 + 一句素材描述（更好看） -->
-  - adding...
-  - ajiao — [field recording / sketch / live fragment]
-  - huazi — [rain / bus / street]
-  - yutong — [drum / glitch]
-  - ...
-  - huazi — rain on umbrella (original: huazi_雨打在伞上.wav)
+  - ajiao — 风力发电旋转 小中甸服务区加水站, 牧民房屋顶早晨融水, 1021羊跳海(39-56);
+  - huazi — 雨偷(触发电瓶车报警器), 雨打在伞上, Overtrip3 Live Recording;
+  - keyu - Yang playing violin[2, 13, 16, 52, 62];
+  - Liu Hanwen - 电扇[0a4e8576e4f7d...28a7a15874_raw, 98dd6ebe26ade...02c62ee021_raw];
+  - Li Xiangwei - 20230618 沙丘演出;
+  - Peng - 8.10 轻松听, 弹, 独白, 鞋底掉了;
+  - ResBina - 14-Audio 000...85510;
+  - stevelongoriaa - darkmass, maggotcrucifix;
+  - xuanni - Wales Coast to Coast;
+  - xiuyuan - 20250910, 12, SC_251105_030732;
+  - yutong — druming glicth, 声像故障;
+  - yz - 新录音[52, 50, 46, 71];
 </details>
 <br>
 <br>
