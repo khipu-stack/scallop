@@ -20,6 +20,9 @@ const { title = "" } = Astro.props;
       body.bare p { margin: 0 0 1rem 0; }
       body.bare a { text-underline-offset: .2em; }
       body.bare img { max-width: 100%; height: auto; display: block; margin: 1rem 0; }
+      body.bare :global(:not(pre) > code) { font-size: 0.9em; }
+      body.bare :global(pre) { font-size: 0.9em; line-height: 1.45; overflow-x: auto; }
+      body.bare :global(pre code) { font-size: inherit; line-height: inherit; }
     </style>
   </head>
 

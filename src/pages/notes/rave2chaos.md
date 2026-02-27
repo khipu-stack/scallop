@@ -214,7 +214,7 @@ NN(\void).describe;   // Describe I/O configuration of the model
 
 `NN.load` assigns the model to a symbol key — `\void` here, though the name is arbitrary. `NN(\void).methods` confirms the three exported methods loaded correctly and shows their inlet/outlet counts: `forward` has 3 inlets and 1 outlet; `topo` and `chaos` each have 2 inlets and 1 outlet. `describe` prints the full I/O layout, confirming these match what we registered with `register_buffer`.
 
-To generate sound, `NN(\void, \method).ar(inputs, blockSize)` creates an audio-rate UGen running the specified method. The `blockSize` argument (2048 here) sets how many samples are processed per block — at 44.1kHz this is ~46ms of latency, which is acceptable for most performance contexts. Processing in blocks rather than sample-by-sample is necessary for performance: nn~ uses an internal circular buffer to accumulate samples and runs the network on a separate thread once a full block is ready.
+To generate sound, `NN(\void, \method).ar(inputs, blockSize)` creates an audio-rate UGen running the specified method. nn~ uses an internal circular buffer to accumulate samples and runs the network on a separate thread once a full block is ready.
 
 
 ### Building a Modular Patch with NN~ in SC
@@ -292,7 +292,7 @@ SynthDef(\chaos_processor, { |amp=0.5, out=0, audioBus=0|
 
 ```
 
-`\topo_sender` writes its output to both the speakers and `~audioBus`. `\chaos_processor` reads from that bus, making `chaos` act as a post-processing stage on `topo`'s full audio output. The `control` range is extended to 118 here, since the input is already a complex, processed signal, stronger perturbation is needed to push `chaos` into its more extreme behaviors.
+`\topo_sender` writes its output to both the speakers and `~audioBus`. `\chaos_processor` reads from that bus, making `chaos` act as a post-processing stage on `topo`'s full audio output.
 
 The result is an opaque combined transfer function: the motion of the first network (sweeps, rhythmic patterns) gets refracted and diffused by the second. 
 
