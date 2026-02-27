@@ -14,25 +14,25 @@ In this text, we will explore two contrasting approaches to neural audio synthes
 
 - RAVE model (Training approach): A Realtime Audio Variational autoEncoder developed at IRCAM. This approach involves preparing a dataset of sounds, training a deep network to learn that data’s patterns, and then using the trained model to generate or process audio. In this sense, the dataset itself becomes a compositional act and the network learns to mimic it.
 
-- Architechturally composed ConvNet (No-training approach): Instead of training on data, we directly code a neural network architecture (convolution layers with non-linearities) and use it as an audio processor. This is a more experimental, “hacking” approach: we leverage the same tools that normally host trained models (the nn~ external) but feed it a custom TorchScript model that initializede without any training data. The architecture itself becomes the instrument, and its randomly initialized weights become the parameters shaping its sound.
+- Architechturally composed ConvNet (No-training approach): Instead of training on data, we directly code a neural network architecture ([convolution](https://en.wikipedia.org/wiki/Convolution) layers with non-linearities) and use it as an audio processor. This is a more experimental, “hacking” approach: we leverage the same tools that normally host trained models (the nn~ external) but feed it a custom TorchScript model that initializede without any training data. The architecture itself becomes the instrument, and its randomly initialized weights become the parameters shaping its sound.
 
 We’ll delve into the technical structure of the custom TorchScript, verify the understanding of how RAVE and nn~ relate, and discuss the artistic implications of training vs. hand-coding and the agency of these neural networks in a creative context. Along the way, I’ll share code snippets, SuperCollider patch examples, and personal observations from my experiments.
 
 ## Understanding RAVE: Training a Neural Audio Model
 
-What is RAVE? RAVE (Realtime Audio Variational autoEncoder) is a neural audio synthesis framework that learns to compress and reconstruct audio in real-time. Technically, it’s a variational autoencoder (VAE) tailored for audio: it has an encoder that converts audio to a low-dimensional latent representation and a decoder that reconstructs audio from that latent code. By training on a large dataset of sounds, a RAVE model learns a latent space of that audio domain, enabling tasks like generating new sounds, transforming input audio, or doing style transfer between sounds.
+What is [RAVE](https://github.com/acids-ircam/RAVE)? RAVE (Realtime Audio Variational autoEncoder) is a neural audio synthesis framework that learns to compress and reconstruct audio in real-time. Technically, it’s a variational autoencoder (VAE) tailored for audio: it has an encoder that converts audio to a low-dimensional latent representation and a decoder that reconstructs audio from that latent code. By training on a large dataset of sounds, a RAVE model learns a latent space of that audio domain, enabling tasks like generating new sounds, transforming input audio, or doing style transfer between sounds.
 
-- Training Process: Training RAVE involves three main steps: (1) preparing a dataset, (2) running the training to optimize the model’s weights on that data, and (3) exporting the trained model for real-time use. In practice, one must preprocess audio into a dataset and possibly apply augmentations. For example, RAVE v2 models include an augmentation called “mute” that randomly silences portions of training audio to force the model to learn silence, an interesting detail highlighting that even silence is something a model must learn to reproduce properly. Training is typically computationally intensive and can run for many hours or days, passing through the data repeatedly (epochs) until the model converges. RAVE’s authors provide various preset architectures (v1, v2, v2_small, etc.), each suited for different tasks or GPU budgets.
+Training Process: Training RAVE involves three main steps: (1) preparing a dataset, (2) running the training to optimize the model’s weights on that data, and (3) exporting the trained model for real-time use. In practice, one must preprocess audio into a dataset and possibly apply augmentations. For example, RAVE v2 models include an augmentation called “mute” that randomly silences portions of training audio to force the model to learn silence, an interesting detail highlighting that even silence is something a model must learn to reproduce properly. Training is typically computationally intensive and can run for many hours or days, passing through the data repeatedly (epochs) until the model converges. RAVE’s authors provide various preset architectures (v1, v2, v2_small, etc.), each suited for different tasks or GPU budgets.
 
-- My RAVE Experiments: Last summer, in collaboration with Mengtian Sun, we trained a RAVE model on 1 hour of my own noise music recordings. We used the v2_small configuration, which, as documented, is an architecture with a smaller receptive field and adapted for more stationary signals like noise. The training process itself was an exploratory composition: I curated an hour of diverse noise, and the neural network gradually learned a representation of that noise universe. After training, we exported the model to a TorchScript .ts file (with the streaming option for real-time to avoid artifacts) and auditioned the results.
+My RAVE Experiments: Last summer, in collaboration with [Mengtian Sun](https://eat1glueberrypie.com/), we trained a RAVE model on 1 hour of my own noise music recordings. We used the v2_small configuration, which, as documented, is an architecture with a smaller receptive field and adapted for more stationary signals like noise. The training process itself was an exploratory composition: I curated an hour of diverse noise, and the neural network gradually learned a representation of that noise universe. After training, we exported the model to a TorchScript .ts file (with the streaming option for real-time to avoid artifacts) and auditioned the results.
 
-- Results & Observations: The output of the noise-trained model was not as dramatically varied as one might hope. In fact, different input sounds processed through this RAVE model came out sounding “flattened” or homogenized. The model seemed to average out nuances and produce a somewhat uniform noise texture. This makes sense in hindsight: the VAE had learned a compressed latent representation of the entire noise dataset. It found a kind of statistical middle-ground of those noise recordings. While it could reproduce the general texture (and did capture some spectral characteristics of my noise data), it lacked the extreme dynamics or distinct identities of individual recordings. The outcome was a smooth, almost polite noise – interesting but less chaotic than the raw source material. It was as if the model ironed out the quirks in the data, giving an almost noisy yet somewhat characterless rendition of noise.
+Results & Observations: The output of the noise-trained model was not as dramatically varied as one might hope. In fact, different input sounds processed through this RAVE model came out sounding “flattened” or homogenized. The model seemed to average out nuances and produce a somewhat uniform noise texture. This makes sense in hindsight: the VAE had learned a compressed latent representation of the entire noise dataset. It found a kind of statistical middle-ground of those noise recordings. While it could reproduce the general texture (and did capture some spectral characteristics of my noise data), it lacked the extreme dynamics or distinct identities of individual recordings. The outcome was a smooth, almost polite noise – interesting but less chaotic than the raw source material. It was as if the model ironed out the quirks in the data, giving an almost noisy yet somewhat characterless rendition of noise.
 
-- Even when feeding the model very different inputs (or even just letting it generate from random latent codes), the sound stayed within a narrow band of what it had learned. This underscored a key idea: a trained model will always reflect its training data’s bias. RAVE, acting as a mimesis machine, was intelligent only in so far as it could regurgitate the essence of its training sounds. Its creativity was bounded by the recordings I gave it.
+Even when feeding the model very different inputs (or even just letting it generate from random latent codes), the sound stayed within a narrow band of what it had learned. This underscored a key idea: a trained model will always reflect its training data’s bias. RAVE, acting as a mimesis machine, was intelligent only in so far as it could regurgitate the essence of its training sounds. Its creativity was bounded by the recordings I gave it.
 
 Curious about how a different dataset might change the model's character, I began a second training.
 
-- Second Training & Artifacts: This time we used the full v2 architecture (a larger model) on a human voice dataset(recording of our voices passages in Chinese and English). Due to GPU limits, I tweaked some batch-related parameters to get it running. The training succeeded, and I got to observe the model’s evolution across checkpoints, from rough output in early epochs to more refined reconstructions later. An intriguing find was the presence of certain artifacts in the generated audio. Some sounds had a harsh, resonant edge, a kind of high-frequency buzzing or metallic ringing that wasn’t explicitly in the dataset. These artifacts, while considered “imperfections” from a fidelity standpoint, became signatures of the model’s neural nature. I noticed that these neural artifacts are reminiscent of those heard in other AI audio works (for example, the subtle digital distortion or aliasing often heard in neural audio synthesis). They might arise from the model’s convolutional layers or the adversarial training process. Importantly, I would later encounter similar artifacts in my hand-written network, hinting that certain sonic fingerprints are innate to convolutional neural networks, whether trained or not.
+Second Training & Artifacts: This time we used the full v2 architecture (a larger model) on a human voice dataset(recording of our voices passages in Chinese and English). Due to GPU limits, I tweaked some batch-related parameters to get it running. The training succeeded, and I got to observe the model’s evolution across checkpoints, from rough output in early epochs to more refined reconstructions later. An intriguing find was the presence of certain artifacts in the generated audio. Some sounds had a harsh, resonant edge, a kind of high-frequency buzzing or metallic ringing that wasn’t explicitly in the dataset. These artifacts, while considered “imperfections” from a fidelity standpoint, became signatures of the model’s neural nature. I noticed that these neural artifacts are reminiscent of those heard in other AI audio works (for example, the subtle digital distortion or aliasing often heard in neural audio synthesis). They might arise from the model’s convolutional layers or the adversarial training process. Importantly, I would later encounter similar artifacts in my hand-written network, hinting that certain sonic fingerprints are innate to convolutional neural networks, whether trained or not.
 
 In summary, using RAVE taught me that training a neural network is as much an art as a science. The artist’s influence comes through in data curation (what sounds you choose to train on, how you augment them, etc.) and in tweaking training parameters. The result is a model that embodies the training data. It’s an instrument that knows those sounds. This brings us to an ontological point: when you train a model on a dataset, you are in effect saying “this collection of sounds is my composition, and I want an instrument that can play in that style”.
 
@@ -40,13 +40,13 @@ Before contrasting this with the hand-written approach, let’s introduce the to
 
 ## nn~ as a Host: Loading Models into SuperCollider/Max/Pd
 
-nn~ is an external object originally developed by the RAVE authors (ACIDS-IRCAM) for Max/MSP and Pure Data, and adapted for SuperCollider by elgiano as nn.ar. It acts as a bridge between deep learning models and audio environments wrapping LibTorch (the C++ back-end of PyTorch) for use in real-time audio software. Essentially, nn~ is an empty shell that becomes useful only when you give it a pretrained TorchScript model.
+[nn~](https://github.com/acids-ircam/nn_tilde) is an external object originally developed by the RAVE authors (ACIDS-IRCAM) for Max/MSP and Pure Data, and adapted for SuperCollider by elgiano as [nn.ar](https://github.com/elgiano/nn.ar). It acts as a bridge between deep learning models and audio environments wrapping LibTorch (the C++ back-end of PyTorch) for use in real-time audio software. Essentially, nn~ is an empty shell that becomes useful only when you give it a pretrained TorchScript model.
 
 - A TorchScript model (with .ts extension) is a serialized neural network that can run independently of Python – perfect for deployment. RAVE provides a command to export models to TorchScript, which is what I used to get my .ts files.
 
 - nn~ loads such a model and exposes its methods as audio processing units. In fact, many TorchScript models can have multiple entry-point methods. For instance, a RAVE model might have separate methods for encode, decode, and an all-in-one forward (encode+decode). With nn~, you can select which method to run and it will create the appropriate number of audio inlets/outlets for that method. This multi-method capability is key to the hack.
 
-The Hack: **While nn~ was conceived to host trained models, it doesn’t actually verify what the model is or how it was obtained.**  As long as the .ts file is a valid TorchScript network that accepts and produces audio tensors, nn~ will run it. This opens the door to a mischievously creative idea: what if we write our own neural network (in PyTorch), don’t train it on any data, but still export it as TorchScript? We could then load this untrained network into nn~ and use it like a bizarre audio effect or synth. This approach was first shown by George Bagdasarov in a block seminar at Universität der Künste Berlin, whose code experiments clearly demonstrated that nn~ could host hand-written networks. Building on that, I developed my own version as the second part of this exploration.
+The Hack: **While nn~ was conceived to host trained models, it doesn’t actually verify what the model is or how it was obtained.**  As long as the .ts file is a valid TorchScript network that accepts and produces audio tensors, nn~ will run it. This opens the door to a mischievously creative idea: what if we write our own neural network (in PyTorch), don’t train it on any data, but still export it as TorchScript? We could then load this untrained network into nn~ and use it like a bizarre audio effect or synth. This approach was first shown by [George Bagdasarov](https://monoskop.org/George_Bagdasarov) in a block seminar at Universität der Künste Berlin, whose code experiments clearly demonstrated that nn~ could host hand-written networks. Building on that, I developed my own version as the second part of this exploration.
 
 Why do this? It is, in part, a way of questioning the standard pipeline. Instead of “collect data → train model → use model”, this approach proposes “imagine a model → skip training → use model”. It’s a bit like circuit bending but in software: taking the neural network paradigm and bending it to serve as a direct, unpredictable sound generator. Conceptually, it shifts the focus from training (learning from the world) to topology (designing your own little world), from teaching an instrument what to play, to building the instrument itself: you assemble oscillators, filters, nonlinearities (here realized as neural network layers/functions) in any configuration you design, and see what sounds it makes. There’s no prior knowledge in it; you impose form on it, rather than letting it learn form from data.
 
@@ -54,7 +54,7 @@ Let’s take a closer look into the specific scratch-built model and see how it 
 
 ## Hand-Writing a Neural Network Instrument (ChaosEffect)
 
-In a Jupyter notebook (Chaos_export.ipynb), I defined a PyTorch `nn.Module` called `ChaosEffect`: a small convolutional neural network with three distinct methods — `forward`, `topo`, and `chaos` — each representing a different mode of operation. Think of them as three differently wired circuits sharing the same underlying components: one a dual-modulator effect, one a leaner wave-shaper, and one a nonlinear oscillator driven by intra-buffer phase perturbation. The module is exported as a single TorchScript file (`test_env_topo_chaos_3.ts`), loadable in SuperCollider via nn~, with each method accessible as a separate processing mode.
+In a [Jupyter Notebook](https://jupyter.org/), I defined a PyTorch `nn.Module` called `ChaosEffect`: a small [convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neural_network) with three distinct methods — `forward`, `topo`, and `chaos` — each representing a different mode of operation. Think of them as three differently wired circuits sharing the same underlying components: one a dual-modulator effect, one a leaner wave-shaper, and one a nonlinear oscillator driven by intra-buffer phase perturbation. The module is exported as a single TorchScript file (`test_env_topo_chaos_3.ts`), loadable in SuperCollider via nn~, with each method accessible as a separate processing mode.
 
 In PyTorch, any neural network is defined as a subclass of `nn.Module`. You implement an `__init__` method to define the layers, and one or more `forward`-style methods to define how audio flows through them. Once defined, the module can be serialized to TorchScript with `torch.jit.script()`, making it runnable outside of Python, which is what nn~ requires.
 
@@ -79,7 +79,7 @@ class ChaosEffect(torch.nn.Module):
                 layer.weight *= w_mult
 ```
 
-The network has four Conv1d layers. `conv_in`, `conv`, and `conv_out` all use `kernel_size=1`, meaning they operate per-sample with no temporal window — functionally equivalent to a fully connected layer applied independently at each time-step. `conv_in` expands the single input channel into `operators` channels; `conv` is a hidden layer (operators → operators); `conv_out` collapses back to 1 channel. These three form the core feedforward path shared by all methods.
+The network has four [Conv1d](https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv1d.html) layers. `conv_in`, `conv`, and `conv_out` all use `kernel_size=1`, meaning they operate per-sample with no temporal window — functionally equivalent to a fully connected layer applied independently at each time-step. `conv_in` expands the single input channel into `operators` channels; `conv` is a hidden layer (operators → operators); `conv_out` collapses back to 1 channel. These three form the core feedforward path shared by all methods.
 
 `conv_chaos` uses `kernel_size=5` with `padding=2`, so it looks at a window of 5 consecutive samples within the current buffer. This gives it local temporal context — it is essentially a learned FIR filter operating across neighboring samples. It is only used in the `chaos` method.
 
@@ -104,7 +104,12 @@ scripted_model = torch.jit.script(chaos)
 torch.jit.save(scripted_model, "test_env_topo_chaos_3.ts") # you can choose other names
 ```
 
-The tensor `[3, 1, 1, 1]` tells nn~ that `forward` expects 3 audio inputs and produces 1 output; `[2, 1, 1, 1]` means 2 inputs and 1 output for `topo` and `chaos`. Without these buffers, nn~ cannot automatically determine the method's audio I/O layout.
+The tensor `[3, 1, 1, 1]` tells nn~ that `forward` expects 3 audio inputs and produces 1 output; `[2, 1, 1, 1]` means 2 inputs and 1 output for `topo` and `chaos`. Without these buffers, nn~ cannot automatically determine the method's audio I/O layout. All three methods here run at full audio rate. This convention is documented in the RAVE team's [cached_conv](https://acids-ircam.github.io/cached_conv/) library, which is the official framework for building streamable models compatible with nn~.
+
+<details>
+<summary>One distinction</summary>  
+One distinction worth noting: `cached_conv` replaces standard `torch.nn.Conv1d` layers with its own streaming-aware versions, which use an internal cache to handle real-time buffer-by-buffer processing without latency artifacts. ChaosEffect uses standard `torch.nn.Conv1d` layers instead, which means it is not streamable in the `cached_conv` sense. It works in real time because nn.ar handles the buffering externally, but the convolutions themselves are not designed with streaming in mind.
+</details>
 
 #### Method 1: forward (Base Input with Two Modulators)
 ```python
@@ -197,7 +202,7 @@ chaos = ChaosEffect(operators=5, w_mult=4) # try different values
 scripted_model = torch.jit.script(chaos)
 ```
 
-Now that the TorchScript model is ready (the full notebook is avaliable [here]) , the next step was to load it into SuperCollider via nn~ and build a playable patch around it.
+Now that the TorchScript model is ready (the full Jupyter notebook is available [here](torch-nn)) , the next step was to load it into SuperCollider via nn~ and build a playable patch around it.
 
 
 
@@ -205,7 +210,7 @@ Now that the TorchScript model is ready (the full notebook is avaliable [here]) 
 
 With the model exported (test_env_topo_chaos_3.ts), using it in SuperCollider is straightforward. 
 
-```supercollider
+```js
 s.boot;
 NN.load(\void, "/path/to/test_env_topo_chaos_3.ts");
 NN(\void).methods;    // List available methods (forward, topo, chaos)
@@ -223,7 +228,7 @@ I approached this like building a small modular synth where each neural method i
 
 #### topo as a standalone synth
 
-```supercollider
+```js
 SynthDef(\topo, { |freq = 100, amp = 0.5, out = 0, modBus = 0|
     var input, mod, nnOutput, final, energy;
     input = Saw.ar(freq);
@@ -246,7 +251,7 @@ Sonically, `mod1` range has a large effect: at low values the network produces g
 
 #### Chaos as a standalone synth
 
-```supercollider
+```js
 SynthDef(\Chaos, { |baseFreq = 60, amp = 0.5, out = 0, modBus = 0|
     var input, control, nnOutput, final, follower, dynamicFreq;
     // read the modBus (amplitude from topo synth) as a control signal
@@ -270,7 +275,7 @@ The design choice here is `dynamicFreq`: the amplitude follower from `modBus` (w
 
 A second interconnection is direct audio chaining: `topo`'s output becomes `chaos`'s input.
 
-```supercollider
+```js
 ~audioBus = Bus.audio(s, 1);
 SynthDef(\topo_sender, { |freq=100, out=0, audioBus=0|
     var input = Saw.ar(freq);
@@ -357,4 +362,6 @@ Several questions remain open. The two approaches could be hybridized: take a ha
 
 ---
 
-*References: [RAVE](https://github.com/acids-ircam/rave), [nn_tilde](https://github.com/acids-ircam/nn_tilde), [nn.ar](https://github.com/elgiano/nn.ar), George Bagdasarov (UdK Berlin, the void of intelligence)*
+*References: 
+[RAVE: A variational autoencoder for fast and high-quality neural audio synthesis](https://arxiv.org/abs/2111.05011)
+[export.py](https://github.com/acids-ircam/RAVE/blob/master/scripts/export.py) 
