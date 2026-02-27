@@ -52,11 +52,39 @@ Why do this? It is, in part, a way of questioning the standard pipeline. Instead
 
 Let’s take a closer look into the specific scratch-built model and see how it works internally.
 
-## Hand-Writing a Neural Network Instrument (ChaosEffect)
+## Hand-Writing a Neural Network Instrument (Chaos)
 
-In a [Jupyter Notebook](https://jupyter.org/), I defined a PyTorch `nn.Module` called `ChaosEffect`: a small [convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neural_network) with three distinct methods — `forward`, `topo`, and `chaos` — each representing a different mode of operation. Think of them as three differently wired circuits sharing the same underlying components: one a dual-modulator effect, one a leaner wave-shaper, and one a nonlinear oscillator driven by intra-buffer phase perturbation. The module is exported as a single TorchScript file (`test_env_topo_chaos_3.ts`), loadable in SuperCollider via nn~, with each method accessible as a separate processing mode.
+Before arriving at Chaos, here is a simpler version called `ModelSynth` to check that the basic pipeline worked: define a `torch.nn.Module`, scale the random weights, export as TorchScript, load into nn~. The architecture was minimal: three Conv1d layers with kernel_size=1, a single `forward` method, and no normalization. It was enough to confirm that a hand-written network with frozen random weights could produce sound and survive the export process.
+
+```python
+class ModelSynth(torch.nn.Module):
+    def __init__(self, operators=7, w_mult=1, kernel=1):
+        super().__init__()
+        self.conv_in  = torch.nn.Conv1d(1, operators, kernel_size=kernel)
+        self.conv     = torch.nn.Conv1d(operators, operators, kernel_size=kernel)
+        self.conv_out = torch.nn.Conv1d(operators, 1, kernel_size=kernel)
+
+        for l in [self.conv_in, self.conv, self.conv_out]:
+            l.weight = torch.nn.Parameter(l.weight * w_mult)
+
+    @torch.jit.export
+    def forward(self, buffer):
+        x    = buffer[:, 0]
+        mod1 = buffer[:, 1]
+        mod2 = buffer[:, 2]
+        y = self.conv_in(x)
+        y = self.conv(y)
+        y = torch.sin(y * torch.pi * mod1)
+        y = 1 - torch.tanh(abs(y) * mod2)
+        y = self.conv_out(y)
+        return y
+```
+Once that worked, the next question was what else the architecture could do. ChaosEffect grew out of that: adding `conv_chaos` (kernel_size=5) to introduce local temporal correlation within a buffer, splitting the logic into three distinct methods to explore different signal paths through the same weight set, and adding output normalization to keep levels manageable. The full notebook is available [here](/notes/torch-nn).
+
+In a [Jupyter Notebook](https://jupyter.org/), I defined a PyTorch `nn.Module` : a small [convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neural_network) with three distinct methods — `forward`, `topo`, and `chaos` — each representing a different mode of operation. Think of them as three differently wired circuits sharing the same underlying components: one a dual-modulator effect, one a leaner wave-shaper, and one a nonlinear oscillator driven by intra-buffer phase perturbation. The module is exported as a single TorchScript file (`test_env_topo_chaos_3.ts`), loadable in SuperCollider via nn~, with each method accessible as a separate processing mode.
 
 In PyTorch, any neural network is defined as a subclass of `nn.Module`. You implement an `__init__` method to define the layers, and one or more `forward`-style methods to define how audio flows through them. Once defined, the module can be serialized to TorchScript with `torch.jit.script()`, making it runnable outside of Python, which is what nn~ requires.
+
 
 #### Network Architecture and Weight Initialization
 ```python
