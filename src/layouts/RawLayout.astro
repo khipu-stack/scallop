@@ -3,6 +3,7 @@
 const {
   title = "SCALLOP",
   theme = "paper", // dark | paper
+  layoutVariant = "default", // default | home
 } = Astro.props;
 
 const year = new Date().getFullYear();
@@ -37,11 +38,11 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
   </head>
 
   <body id="TOP">
-    <div class="container">
+    <div class={`container ${layoutVariant === "home" ? "container-home" : ""}`}>
       <header class="site-header">
         <div class="mast">
           <div>
-            <a class="wordmark" href="/" aria-current={currentIfActive("/")}>SCALLOP</a>
+            <a class="wordmark" href="/" aria-current={currentIfActive("/")}>{layoutVariant === "home" ? "scallop" : "SCALLOP"}</a>
             <div class="muted">slowly growing construction</div>
           </div>
           <button id="theme-toggle" type="button" aria-label="Toggle theme">◐</button>
@@ -51,12 +52,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
           <a href="/" aria-current={currentIfActive("/")}>~</a>
           <a href="/works" aria-current={currentIfActive("/works")}>works</a>
           <a href="/sounds" aria-current={currentIfActive("/sounds")}>sounds</a>
-        </nav>
-
-        <nav class="nav nav-secondary" aria-label="Status">
           <a href="/notes" aria-current={currentIfActive("/notes")}>notes</a>
-          <a href="/latent" aria-current={currentIfActive("/latent")}>latent</a>
-          <a href="/debris" aria-current={currentIfActive("/debris")}>debris</a>
         </nav>
       </header>
 
@@ -84,6 +80,17 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 </html>
 
 <style is:global>
+  /* -----------------------------
+    Fungal variable font
+  ----------------------------- */
+  @font-face {
+    font-family: "FungalVF";
+    src: url("/fonts/fungal/FungalVF.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   /* -----------------------------
     0) Theme tokens
     默认 dark
@@ -150,7 +157,7 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     font-weight: bold;
   }
 
-  h1, {
+  h1 {
     border-bottom: 2px solid var(--accent);
   }
 
@@ -206,11 +213,15 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     max-width: var(--container-w);
     margin: 0 auto;
     border: none; /* 1px solid var(--border); */
-    border-top: 4px solid var(--accent);
+    /* border-top: 4px solid var(--accent); */
     padding: var(--container-pad);
     padding-top: 11px;
     min-height: 90vh;
     background: var(--panel);
+  }
+
+  .container-home {
+    max-width: min(1200px, 92vw);
   }
 
   .site-header{
@@ -231,11 +242,17 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     border-bottom: none; 
     font-weight: 700;
     letter-spacing: 0.04em;
+    font-size: clamp(1.45rem, 1.1rem + 0.65vw, 2rem);
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.01em;
+    text-transform: uppercase;
   }
   .wordmark:hover{
     background: transparent;
     color: var(--accent);
-  }  
+  }
 
   /* -----------------------------
     4) Navigation
@@ -251,11 +268,6 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
 
   .nav::-webkit-scrollbar {
     display: none;
-  }
-
-  .nav-secondary{
-    margin-top: 0px;
-    opacity: 0.9;
   }
 
   .nav a::before { content: "[ "; }

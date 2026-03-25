@@ -2,28 +2,72 @@
 import RawLayout from '../layouts/RawLayout.astro';
 ---
 
-<RawLayout title="SCALLOP">
-  <h2>scallop {"< >"} maximum zone</h2>
-
-  <p class="muted">
-    is a working site for noise; a micro archive by Xiuyuan Shen. It is out of a certain sense of tension and strain that I read, record, and code. Linked as I go: détournement ignores the self-identity of the textual corpus; it takes what it finds useful or amusing for composing the expression of the present situation.
-  </p>
-
-  <div class="panel">
-    <strong>latest</strong><br/>
-    /rave_bb & punk_nn<br/>
-    /numerical test of evol  with GA
-  </div>
-
-  <h2>Index</h2>
-  <ul>
-    <li><a href="/">CV</a> — x</li>
-    <li><a href="/works">works</a> — x</li>
-    <li><a href="/sounds">sounds</a> — x</li>
-    <li><a href="/notes">notes</a> — x</li>
-    <li><a href="/latent">latent</a> — x</li>
-    <li><a href="/debris">debris</a> — x</li>
-    <li><a href="/in-progress">in progress</a> — x</li>
-    <li><a href="https://mastodon.social/@mathshy" target="_blank" rel="noreferrer">mastodon</a></li>
-  </ul>
+<RawLayout title="Scallop" layoutVariant="home">
+  <section class="home-cover" aria-label="Home cover">
+    <p class="kicker">xiuyuan shen / noise + code + archive</p>
+  </section>
 </RawLayout>
+
+<style>
+  .home-cover {
+    min-height: calc(90vh - 160px);
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: clamp(0.72rem, 0.64rem + 0.24vw, 0.9rem);
+    color: var(--muted);
+    padding-bottom: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .kicker {
+      letter-spacing: 0.06em;
+    }
+  }
+</style>
+
+<style is:global>
+  /* ── Fungal variable font — homepage wordmark only ── */
+
+  .container-home .wordmark {
+    font-family: "FungalVF", sans-serif;
+    font-size: clamp(2.2rem, 1.6rem + 1.25vw, 3.2rem);
+    /* Override the base uppercase rule so lowercase letterforms render */
+    text-transform: none;
+    font-variation-settings: 'THCK' 500, 'grow' 220;
+    letter-spacing: 0.04em;
+    /* Descenders and grown outlines need vertical room; line-height:1 is too tight */
+    line-height: 1.3;
+    padding: 0.2em 0;
+    overflow: visible;
+    transition:
+      font-variation-settings 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      letter-spacing 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: fungal-breathe 11s ease-in-out infinite;
+  }
+
+  @keyframes fungal-breathe {
+    0%, 100% { font-variation-settings: 'THCK' 500, 'grow' 220; }
+    50%       { font-variation-settings: 'THCK' 560, 'grow' 520; }
+  }
+
+  .container-home .wordmark:hover {
+    font-variation-settings: 'THCK' 700, 'grow' 900;
+    letter-spacing: 0.06em;
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .container-home .wordmark {
+      animation: none;
+      font-variation-settings: 'THCK' 500, 'grow' 220;
+      transition: none;
+    }
+  }
+</style>
