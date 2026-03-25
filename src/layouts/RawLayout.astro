@@ -254,6 +254,18 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
     color: var(--accent);
   }
 
+  /* Inner-page wordmark: site label, not a competing title */
+  .container:not(.container-home) .wordmark {
+    font-size: clamp(1.1rem, 0.85rem + 0.45vw, 1.5rem);
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* Inner pages: left-align container so content starts at the same edge as homepage */
+  .container:not(.container-home) {
+    margin-left: 0;
+  }
+
   /* -----------------------------
     4) Navigation
   ----------------------------- */

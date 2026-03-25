@@ -10,8 +10,7 @@ allWorks.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatte
 ---
 
 <RawLayout title="works // SCALLOP">
-  <h1>works</h1>
-  <p class="muted">art practice — pages will grow one by one.</p>
+  <p class="muted">more coming...</p>
 
   {allWorks.length === 0 ? (
     <ul>
@@ -48,7 +47,7 @@ allWorks.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatte
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 30px;
-    margin-top: 40px;
+    margin-top: 16px;
   }
 
   .work-card {
