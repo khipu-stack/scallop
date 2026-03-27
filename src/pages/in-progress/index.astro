@@ -18,22 +18,26 @@ const sortedProgress = allProgress.sort((a, b) => {
   {sortedProgress.length === 0 ? (
     <div class="panel muted">empty for now.</div>
   ) : (
-    <ol class="progress-list">
+    <ul class="progress-list">
       {sortedProgress.map((item) => (
-        <li class="progress-item">
-          <div class="row">
-            <span class="status">[{item.frontmatter.status ?? 'moving'}]</span>
-            <a href={item.url} class="title">{item.frontmatter.title}</a>
-          </div>
-          {item.frontmatter.focus ? (
-            <div class="meta">focus: {item.frontmatter.focus}</div>
-          ) : null}
-          {item.frontmatter.next ? (
-            <div class="meta">next: {item.frontmatter.next}</div>
-          ) : null}
+        <li>
+          <a class="progress-entry" href={item.url}>
+            <div class="topline">
+              <span class="title">{item.frontmatter.title}</span>
+              {item.frontmatter.status ? (
+                <span class="status">{item.frontmatter.status}</span>
+              ) : null}
+            </div>
+            {item.frontmatter.focus ? (
+              <p class="meta">↳ {item.frontmatter.focus}</p>
+            ) : null}
+            {item.frontmatter.next ? (
+              <p class="meta">→ {item.frontmatter.next}</p>
+            ) : null}
+          </a>
         </li>
       ))}
-    </ol>
+    </ul>
   )}
 </RawLayout>
 
@@ -41,46 +45,58 @@ const sortedProgress = allProgress.sort((a, b) => {
   .progress-list {
     list-style: none;
     padding: 0;
-    margin-top: 30px;
+    margin: 24px 0 0;
+    max-width: 760px;
   }
 
-  .progress-item {
-    border-left: 3px solid #222;
-    padding: 10px 12px;
-    margin-bottom: 14px;
-    background: linear-gradient(90deg, #090909, transparent);
+  .progress-list li {
+    margin: 0;
   }
 
-  .progress-item:hover {
-    border-left-color: #00ff41;
-    background: linear-gradient(90deg, #0f0f0f, transparent);
+  .progress-entry {
+    display: block;
+    padding: 14px 0 16px;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
   }
 
-  .row {
+  .topline {
     display: flex;
-    gap: 10px;
     align-items: baseline;
-    flex-wrap: wrap;
-  }
-
-  .status {
-    font-size: 0.75em;
-    color: #00ff41;
+    justify-content: space-between;
+    gap: 16px;
   }
 
   .title {
-    border-bottom: none;
-    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    color: var(--accent);
   }
 
-  .title:hover {
-    background: transparent;
-    color: #00ff41;
+  .status {
+    font-size: 0.82rem;
+    opacity: 0.55;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .meta {
-    color: #888;
-    font-size: 0.85em;
-    margin-top: 6px;
+    margin: 6px 0 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    opacity: 0.72;
+    max-width: 68ch;
+  }
+
+  .progress-entry:hover .title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .progress-entry:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    outline-offset: 6px;
+    border-radius: 8px;
   }
 </style>

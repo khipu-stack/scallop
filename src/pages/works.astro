@@ -38,37 +38,37 @@ allWorks.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatte
 
 <style>
   .muted {
-    color: #666;
+    color: var(--muted);
     font-size: 0.9em;
   }
 
   /* 网格布局系统 */
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 16px;
   }
 
   .work-card {
     display: block;
-    border: 1px solid #333;
-    background: #0a0a0a;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--fg) 6%, var(--bg));
     text-decoration: none;
     transition: all 0.2s;
   }
 
   .work-card:hover {
-    border-color: #00ff41;
-    transform: translateY(-4px);
-    box-shadow: 4px 4px 0 #00ff41;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 0 var(--accent);
   }
 
   .thumb-container {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border);
   }
 
   .thumb-container img {
@@ -91,7 +91,7 @@ allWorks.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatte
 
   .type {
     font-size: 0.7em;
-    color: #666;
+    color: var(--muted);
     font-family: monospace;
     display: block;
     margin-bottom: 5px;
@@ -100,17 +100,17 @@ allWorks.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatte
   .work-card h3 {
     margin: 0 0 10px 0;
     font-size: 1.1em;
-    color: #ddd;
+    color: var(--fg);
     border: none;
   }
 
   .work-card:hover h3 {
-    color: #00ff41;
+    color: var(--accent);
   }
 
   .desc {
     font-size: 0.85em;
-    color: #888;
+    color: var(--muted);
     line-height: 1.4;
     margin: 0;
     /* 限制显示3行，超出省略 */

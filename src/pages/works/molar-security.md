@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/RawLayout.astro
+layout: ../../layouts/DetailLayout.astro
 title: "Molar Security"
 date: "2025-01-11"
 type: "Hybrid Media Video"

@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/RawLayout.astro
+layout: ../../layouts/DetailLayout.astro
 title: "Perceptronic Pond"
 date: "2025-06-18"
 type: "Sound Installation"

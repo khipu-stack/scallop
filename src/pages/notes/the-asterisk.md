@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/RawLayout.astro
+layout: ../../layouts/DetailLayout.astro
 title: "The Asterisk: A Diffractive Prism"
 date: "2025-02-25"
 ---
@@ -55,7 +55,8 @@ asterisks? Where do the signifiers that are excluded from the symbol system go?
 
 
 
-#### Embracing Indeterminacy: Diﬀraction and Multiplicity in Structural Parallels
+## Embracing Indeterminacy: Diﬀraction and Multiplicity in Structural Parallels
+
 In digital world, the asterisk standing for any character or infinite possibility. A search for art may yield artifice, articulate, or artichoke—
 an algorithmic serendipity that collapses rigid categorical boundaries. This function resonates with artistic methodologies, such as
 Dadaist collage techniques, where found materials are fragmented and recombined to challenge norms. With Mallarmé reoriented
