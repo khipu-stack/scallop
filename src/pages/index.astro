@@ -74,6 +74,15 @@ import RawLayout from '../layouts/RawLayout.astro';
 </style> -->
 
 <style is:global>
+  .container-home .site-header {
+    position: relative;
+  }
+
+  .container-home .nav.nav-primary {
+    position: relative;
+    z-index: 30;
+  }
+
   .container-home .wordmark.glitchmark {
     font-family: "FungalVF", sans-serif;
     text-transform: none;
@@ -87,6 +96,9 @@ import RawLayout from '../layouts/RawLayout.astro';
     margin: 0 0 0.04em 0;
     padding: 0.03em 0 0;
     isolation: isolate;
+    width: max-content;
+    position: relative;
+    z-index: 10;
   }
 
   .container-home .wordmark.glitchmark .glyph {
@@ -104,6 +116,9 @@ import RawLayout from '../layouts/RawLayout.astro';
     animation:
       fungal-mutant var(--mut-dur) steps(1, end) infinite var(--mut-delay),
       fungal-jitter var(--jitter-dur) steps(2, end) infinite var(--jitter-delay);
+
+    /* Let nav links under transformed glyph overflow stay clickable */
+    pointer-events: none;
   }
 
   .container-home .wordmark.glitchmark .char-s {
