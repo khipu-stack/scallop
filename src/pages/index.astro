@@ -32,12 +32,13 @@ import RawLayout from '../layouts/RawLayout.astro';
   }
 </style>
 
-<style is:global>
-  /* ── Fungal variable font — homepage wordmark only ── */
+
+<!-- <style is:global>
+   /* ── Fungal variable font — homepage wordmark only ──  */
 
   .container-home .wordmark {
     font-family: "FungalVF", sans-serif;
-    font-size: clamp(2.2rem, 1.6rem + 1.25vw, 3.2rem);
+    font-size: clamp(2.8rem, 2rem + 1.9vw, 4.4rem);
     /* Override the base uppercase rule so lowercase letterforms render */
     text-transform: none;
     font-variation-settings: 'THCK' 500, 'grow' 220;
@@ -68,6 +69,138 @@ import RawLayout from '../layouts/RawLayout.astro';
       animation: none;
       font-variation-settings: 'THCK' 500, 'grow' 220;
       transition: none;
+    }
+  }
+</style> -->
+
+<style is:global>
+  .container-home .wordmark.glitchmark {
+    font-family: "FungalVF", sans-serif;
+    text-transform: none;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    overflow: visible;
+
+    /* huge */
+    font-size: clamp(9rem, 24vw, 22rem);
+
+    /* more brutal */
+    line-height: 0.88;
+    letter-spacing: -0.11em;
+    padding: 0;
+    margin: 0;
+  }
+
+  .container-home .wordmark.glitchmark span {
+    display: inline-block;
+    overflow: visible;
+    transform-origin: center 70%;
+    will-change: font-variation-settings, transform, filter;
+    font-variation-settings: 'THCK' 640, 'grow' 260;
+
+    animation-name: fungal-glitch-breathe;
+    animation-duration: 3.2s;
+    animation-timing-function: steps(1, end);
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+  }
+
+  .container-home .wordmark.glitchmark span:nth-child(1) {
+    animation-delay: -0.15s;
+  }
+  .container-home .wordmark.glitchmark span:nth-child(2) {
+    animation-delay: -0.72s;
+  }
+  .container-home .wordmark.glitchmark span:nth-child(3) {
+    animation-delay: -1.34s;
+  }
+  .container-home .wordmark.glitchmark span:nth-child(4) {
+    animation-delay: -0.41s;
+  }
+  .container-home .wordmark.glitchmark span:nth-child(5) {
+    animation-delay: -1.91s;
+  }
+  .container-home .wordmark.glitchmark span:nth-child(6) {
+    animation-delay: -0.96s;
+  }
+  .container-home .wordmark.glitchmark span:nth-child(7) {
+    animation-delay: -2.21s;
+  }
+
+  @keyframes fungal-glitch-breathe {
+    0% {
+      font-variation-settings: 'THCK' 620, 'grow' 180;
+      transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
+    }
+
+    8% {
+      font-variation-settings: 'THCK' 760, 'grow' 520;
+      transform: translate3d(-0.01em, 0.02em, 0) scaleX(0.97) scaleY(1.06);
+    }
+
+    12% {
+      font-variation-settings: 'THCK' 520, 'grow' 860;
+      transform: translate3d(0.015em, -0.01em, 0) scaleX(1.08) scaleY(0.92);
+    }
+
+    19% {
+      font-variation-settings: 'THCK' 840, 'grow' 430;
+      transform: translate3d(-0.02em, 0, 0) scaleX(0.94) scaleY(1.1);
+    }
+
+    27% {
+      font-variation-settings: 'THCK' 430, 'grow' 980;
+      transform: translate3d(0.02em, -0.02em, 0) scaleX(1.12) scaleY(0.88);
+    }
+
+    35% {
+      font-variation-settings: 'THCK' 700, 'grow' 300;
+      transform: translate3d(0, 0.015em, 0) scaleX(0.98) scaleY(1.02);
+    }
+
+    43% {
+      font-variation-settings: 'THCK' 900, 'grow' 760;
+      transform: translate3d(-0.025em, 0.01em, 0) scaleX(0.9) scaleY(1.14);
+    }
+
+    52% {
+      font-variation-settings: 'THCK' 500, 'grow' 1040;
+      transform: translate3d(0.03em, -0.03em, 0) scaleX(1.15) scaleY(0.84);
+    }
+
+    61% {
+      font-variation-settings: 'THCK' 790, 'grow' 340;
+      transform: translate3d(-0.01em, 0.025em, 0) scaleX(0.96) scaleY(1.06);
+    }
+
+    73% {
+      font-variation-settings: 'THCK' 560, 'grow' 920;
+      transform: translate3d(0.018em, -0.015em, 0) scaleX(1.09) scaleY(0.9);
+    }
+
+    84% {
+      font-variation-settings: 'THCK' 860, 'grow' 610;
+      transform: translate3d(-0.02em, 0, 0) scaleX(0.93) scaleY(1.1);
+    }
+
+    100% {
+      font-variation-settings: 'THCK' 640, 'grow' 220;
+      transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
+    }
+  }
+
+  .container-home .wordmark.glitchmark:hover span {
+    animation-play-state: paused;
+    font-variation-settings: 'THCK' 980, 'grow' 1200;
+    transform: translate3d(0, -0.015em, 0) scaleX(1.08) scaleY(0.9);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .container-home .wordmark.glitchmark span {
+      animation: none;
+      font-variation-settings: 'THCK' 760, 'grow' 480;
+      transform: none;
     }
   }
 </style>

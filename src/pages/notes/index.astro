@@ -12,8 +12,6 @@ const sortedNotes = allNotes.sort((a, b) => {
 ---
 
 <RawLayout title="notes // SCALLOP">
-  <p>archived: {allNotes.length}</p>
-
   <ul class="note-list">
     {sortedNotes.map((note) => (
       <li>
@@ -21,6 +19,8 @@ const sortedNotes = allNotes.sort((a, b) => {
       </li>
     ))}
   </ul>
+
+  <p class="archive-count">archive:{allNotes.length}</p>
 
 </RawLayout>
 
@@ -36,5 +36,11 @@ const sortedNotes = allNotes.sort((a, b) => {
     margin-bottom: 15px;
     padding-bottom: 5px;
     border: none;
+  }
+
+  .archive-count {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #888;
   }
 </style>
