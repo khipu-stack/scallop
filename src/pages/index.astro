@@ -108,14 +108,14 @@ import RawLayout from '../layouts/RawLayout.astro';
     will-change: font-variation-settings, transform, filter;
     font-variation-settings: 'THCK' 600, 'grow' 260;
 
-    --mut-dur: 2.55s;
+    --mut-dur: 2.95s;
     --mut-delay: 0s;
-    --jitter-dur: 520ms;
+    --jitter-dur: 620ms;
     --jitter-delay: 0s;
 
     animation:
-      fungal-mutant var(--mut-dur) steps(1, end) infinite var(--mut-delay),
-      fungal-jitter var(--jitter-dur) steps(2, end) infinite var(--jitter-delay);
+      fungal-mutant-outer var(--mut-dur) steps(1, end) infinite var(--mut-delay),
+      fungal-jitter-outer var(--jitter-dur) steps(2, end) infinite var(--jitter-delay);
 
     /* Let nav links under transformed glyph overflow stay clickable */
     pointer-events: none;
@@ -124,12 +124,12 @@ import RawLayout from '../layouts/RawLayout.astro';
   .container-home .wordmark.glitchmark .char-s {
     --mut-delay: -0.11s;
     --jitter-delay: -0.37s;
-    --mut-dur: 2.7s;
+    --mut-dur: 3.05s;
   }
   .container-home .wordmark.glitchmark .char-c {
     --mut-delay: -0.86s;
     --jitter-delay: -0.12s;
-    --mut-dur: 2.35s;
+    --mut-dur: 2.78s;
   }
 
   .container-home .wordmark.glitchmark .char-a,
@@ -157,13 +157,13 @@ import RawLayout from '../layouts/RawLayout.astro';
   .container-home .wordmark.glitchmark .char-o {
     --mut-delay: -0.74s;
     --jitter-delay: -0.41s;
-    --mut-dur: 2.48s;
+    --mut-dur: 2.82s;
   }
 
   .container-home .wordmark.glitchmark .char-p {
     --mut-delay: -1.93s;
     --jitter-delay: -0.22s;
-    --mut-dur: 2.8s;
+    --mut-dur: 3.1s;
   }
 
   .container-home .wordmark.glitchmark .infected {
@@ -172,38 +172,30 @@ import RawLayout from '../layouts/RawLayout.astro';
     animation-name: fungal-mutant-infected, fungal-jitter-infected;
   }
 
-  @keyframes fungal-mutant {
+  @keyframes fungal-mutant-outer {
     0% {
-      font-variation-settings: 'THCK' 520, 'grow' 180;
+      font-variation-settings: 'THCK' 560, 'grow' 220;
       transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
     }
-    10% {
-      font-variation-settings: 'THCK' 740, 'grow' 620;
-      transform: translate3d(-0.018em, 0.018em, 0) scaleX(0.95) scaleY(1.09);
+    12% {
+      font-variation-settings: 'THCK' 760, 'grow' 520;
+      transform: translate3d(-0.012em, 0.014em, 0) scaleX(0.97) scaleY(1.07);
     }
-    17% {
-      font-variation-settings: 'THCK' 450, 'grow' 900;
-      transform: translate3d(0.02em, -0.015em, 0) scaleX(1.11) scaleY(0.9);
+    24% {
+      font-variation-settings: 'THCK' 540, 'grow' 860;
+      transform: translate3d(0.016em, -0.011em, 0) scaleX(1.07) scaleY(0.93);
     }
-    31% {
-      font-variation-settings: 'THCK' 860, 'grow' 320;
-      transform: translate3d(-0.022em, 0.01em, 0) scaleX(0.91) scaleY(1.12);
+    41% {
+      font-variation-settings: 'THCK' 840, 'grow' 430;
+      transform: translate3d(-0.016em, 0.008em, 0) scaleX(0.94) scaleY(1.1);
     }
-    44% {
-      font-variation-settings: 'THCK' 580, 'grow' 980;
-      transform: translate3d(0.018em, -0.02em, 0) scaleX(1.09) scaleY(0.9);
+    57% {
+      font-variation-settings: 'THCK' 640, 'grow' 740;
+      transform: translate3d(0.012em, -0.015em, 0) scaleX(1.05) scaleY(0.96);
     }
-    58% {
-      font-variation-settings: 'THCK' 880, 'grow' 460;
-      transform: translate3d(-0.024em, 0.016em, 0) scaleX(0.9) scaleY(1.12);
-    }
-    71% {
-      font-variation-settings: 'THCK' 480, 'grow' 1040;
-      transform: translate3d(0.026em, -0.024em, 0) scaleX(1.14) scaleY(0.85);
-    }
-    84% {
-      font-variation-settings: 'THCK' 820, 'grow' 530;
-      transform: translate3d(-0.014em, 0.012em, 0) scaleX(0.95) scaleY(1.06);
+    76% {
+      font-variation-settings: 'THCK' 860, 'grow' 610;
+      transform: translate3d(-0.015em, 0.009em, 0) scaleX(0.94) scaleY(1.08);
     }
     100% {
       font-variation-settings: 'THCK' 600, 'grow' 240;
@@ -250,11 +242,11 @@ import RawLayout from '../layouts/RawLayout.astro';
     }
   }
 
-  @keyframes fungal-jitter {
+  @keyframes fungal-jitter-outer {
     0%, 100% { transform: translate3d(0, 0, 0); }
-    25% { transform: translate3d(0.005em, -0.008em, 0); }
-    50% { transform: translate3d(-0.007em, 0.006em, 0); }
-    75% { transform: translate3d(0.004em, 0.005em, 0); }
+    25% { transform: translate3d(0.004em, -0.006em, 0); }
+    50% { transform: translate3d(-0.006em, 0.005em, 0); }
+    75% { transform: translate3d(0.003em, 0.004em, 0); }
   }
 
   @keyframes fungal-jitter-infected {
