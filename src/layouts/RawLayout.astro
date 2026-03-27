@@ -15,6 +15,15 @@ const isActive = (href: string) => {
 };
 
 const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
+const homeWordmarkChars = [
+  { char: "s", cls: "char-s" },
+  { char: "c", cls: "char-c" },
+  { char: "a", cls: "char-a infected" },
+  { char: "l", cls: "char-l1 infected" },
+  { char: "l", cls: "char-l2 infected" },
+  { char: "o", cls: "char-o" },
+  { char: "p", cls: "char-p" },
+];
 ---
 
 <html lang="en" data-theme={theme}>
@@ -42,7 +51,18 @@ const currentIfActive = (href: string) => (isActive(href) ? "page" : undefined);
       <header class="site-header">
         <div class="mast">
           <div>
-            <a class="wordmark" href="/" aria-current={currentIfActive("/")}>{layoutVariant === "home" ? "scallop" : "SCALLOP"}</a>
+            <a
+              class={`wordmark ${layoutVariant === "home" ? "glitchmark" : ""}`}
+              href="/"
+              aria-current={currentIfActive("/")}
+              aria-label={layoutVariant === "home" ? "scallop" : undefined}
+            >
+              {layoutVariant === "home"
+                ? homeWordmarkChars.map((entry, i) => (
+                    <span class={`glyph ${entry.cls}`} style={`--char-i:${i}`}>{entry.char}</span>
+                  ))
+                : "SCALLOP"}
+            </a>
             <div class="muted">slowly growing construction</div>
           </div>
           <button id="theme-toggle" type="button" aria-label="Toggle theme">◐</button>
