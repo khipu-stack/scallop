@@ -81,125 +81,194 @@ import RawLayout from '../layouts/RawLayout.astro';
     flex-wrap: nowrap;
     align-items: flex-end;
     overflow: visible;
-
-    /* huge */
-    font-size: clamp(9rem, 24vw, 22rem);
-
-    /* more brutal */
-    line-height: 0.88;
-    letter-spacing: -0.11em;
-    padding: 0;
-    margin: 0;
+    font-size: clamp(6rem, 15vw, 13rem);
+    line-height: 0.82;
+    letter-spacing: -0.095em;
+    margin: 0 0 0.04em 0;
+    padding: 0.03em 0 0;
+    isolation: isolate;
   }
 
-  .container-home .wordmark.glitchmark span {
+  .container-home .wordmark.glitchmark .glyph {
     display: inline-block;
     overflow: visible;
-    transform-origin: center 70%;
+    transform-origin: center 72%;
     will-change: font-variation-settings, transform, filter;
-    font-variation-settings: 'THCK' 640, 'grow' 260;
+    font-variation-settings: 'THCK' 600, 'grow' 260;
 
-    animation-name: fungal-glitch-breathe;
-    animation-duration: 3.2s;
-    animation-timing-function: steps(1, end);
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-  }
+    --mut-dur: 2.55s;
+    --mut-delay: 0s;
+    --jitter-dur: 520ms;
+    --jitter-delay: 0s;
 
-  .container-home .wordmark.glitchmark span:nth-child(1) {
-    animation-delay: -0.15s;
-  }
-  .container-home .wordmark.glitchmark span:nth-child(2) {
-    animation-delay: -0.72s;
-  }
-  .container-home .wordmark.glitchmark span:nth-child(3) {
-    animation-delay: -1.34s;
-  }
-  .container-home .wordmark.glitchmark span:nth-child(4) {
-    animation-delay: -0.41s;
-  }
-  .container-home .wordmark.glitchmark span:nth-child(5) {
-    animation-delay: -1.91s;
-  }
-  .container-home .wordmark.glitchmark span:nth-child(6) {
-    animation-delay: -0.96s;
-  }
-  .container-home .wordmark.glitchmark span:nth-child(7) {
-    animation-delay: -2.21s;
+    animation:
+      fungal-mutant var(--mut-dur) steps(1, end) infinite var(--mut-delay),
+      fungal-jitter var(--jitter-dur) steps(2, end) infinite var(--jitter-delay);
   }
 
-  @keyframes fungal-glitch-breathe {
+  .container-home .wordmark.glitchmark .char-s {
+    --mut-delay: -0.11s;
+    --jitter-delay: -0.37s;
+    --mut-dur: 2.7s;
+  }
+  .container-home .wordmark.glitchmark .char-c {
+    --mut-delay: -0.86s;
+    --jitter-delay: -0.12s;
+    --mut-dur: 2.35s;
+  }
+
+  .container-home .wordmark.glitchmark .char-a,
+  .container-home .wordmark.glitchmark .char-l1,
+  .container-home .wordmark.glitchmark .char-l2 {
+    --mut-dur: 1.85s;
+    --jitter-dur: 360ms;
+  }
+
+  .container-home .wordmark.glitchmark .char-a {
+    --mut-delay: -1.29s;
+    --jitter-delay: -0.2s;
+  }
+
+  .container-home .wordmark.glitchmark .char-l1 {
+    --mut-delay: -0.48s;
+    --jitter-delay: -0.08s;
+  }
+
+  .container-home .wordmark.glitchmark .char-l2 {
+    --mut-delay: -1.57s;
+    --jitter-delay: -0.31s;
+  }
+
+  .container-home .wordmark.glitchmark .char-o {
+    --mut-delay: -0.74s;
+    --jitter-delay: -0.41s;
+    --mut-dur: 2.48s;
+  }
+
+  .container-home .wordmark.glitchmark .char-p {
+    --mut-delay: -1.93s;
+    --jitter-delay: -0.22s;
+    --mut-dur: 2.8s;
+  }
+
+  .container-home .wordmark.glitchmark .infected {
+    color: color-mix(in srgb, var(--accent) 86%, var(--fg) 14%);
+    filter: contrast(1.08);
+    animation-name: fungal-mutant-infected, fungal-jitter-infected;
+  }
+
+  @keyframes fungal-mutant {
     0% {
-      font-variation-settings: 'THCK' 620, 'grow' 180;
+      font-variation-settings: 'THCK' 520, 'grow' 180;
       transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
     }
-
-    8% {
-      font-variation-settings: 'THCK' 760, 'grow' 520;
-      transform: translate3d(-0.01em, 0.02em, 0) scaleX(0.97) scaleY(1.06);
+    10% {
+      font-variation-settings: 'THCK' 740, 'grow' 620;
+      transform: translate3d(-0.018em, 0.018em, 0) scaleX(0.95) scaleY(1.09);
     }
-
-    12% {
-      font-variation-settings: 'THCK' 520, 'grow' 860;
-      transform: translate3d(0.015em, -0.01em, 0) scaleX(1.08) scaleY(0.92);
+    17% {
+      font-variation-settings: 'THCK' 450, 'grow' 900;
+      transform: translate3d(0.02em, -0.015em, 0) scaleX(1.11) scaleY(0.9);
     }
-
-    19% {
-      font-variation-settings: 'THCK' 840, 'grow' 430;
-      transform: translate3d(-0.02em, 0, 0) scaleX(0.94) scaleY(1.1);
+    31% {
+      font-variation-settings: 'THCK' 860, 'grow' 320;
+      transform: translate3d(-0.022em, 0.01em, 0) scaleX(0.91) scaleY(1.12);
     }
-
-    27% {
-      font-variation-settings: 'THCK' 430, 'grow' 980;
-      transform: translate3d(0.02em, -0.02em, 0) scaleX(1.12) scaleY(0.88);
+    44% {
+      font-variation-settings: 'THCK' 580, 'grow' 980;
+      transform: translate3d(0.018em, -0.02em, 0) scaleX(1.09) scaleY(0.9);
     }
-
-    35% {
-      font-variation-settings: 'THCK' 700, 'grow' 300;
-      transform: translate3d(0, 0.015em, 0) scaleX(0.98) scaleY(1.02);
+    58% {
+      font-variation-settings: 'THCK' 880, 'grow' 460;
+      transform: translate3d(-0.024em, 0.016em, 0) scaleX(0.9) scaleY(1.12);
     }
-
-    43% {
-      font-variation-settings: 'THCK' 900, 'grow' 760;
-      transform: translate3d(-0.025em, 0.01em, 0) scaleX(0.9) scaleY(1.14);
+    71% {
+      font-variation-settings: 'THCK' 480, 'grow' 1040;
+      transform: translate3d(0.026em, -0.024em, 0) scaleX(1.14) scaleY(0.85);
     }
-
-    52% {
-      font-variation-settings: 'THCK' 500, 'grow' 1040;
-      transform: translate3d(0.03em, -0.03em, 0) scaleX(1.15) scaleY(0.84);
-    }
-
-    61% {
-      font-variation-settings: 'THCK' 790, 'grow' 340;
-      transform: translate3d(-0.01em, 0.025em, 0) scaleX(0.96) scaleY(1.06);
-    }
-
-    73% {
-      font-variation-settings: 'THCK' 560, 'grow' 920;
-      transform: translate3d(0.018em, -0.015em, 0) scaleX(1.09) scaleY(0.9);
-    }
-
     84% {
-      font-variation-settings: 'THCK' 860, 'grow' 610;
-      transform: translate3d(-0.02em, 0, 0) scaleX(0.93) scaleY(1.1);
+      font-variation-settings: 'THCK' 820, 'grow' 530;
+      transform: translate3d(-0.014em, 0.012em, 0) scaleX(0.95) scaleY(1.06);
     }
-
     100% {
-      font-variation-settings: 'THCK' 640, 'grow' 220;
+      font-variation-settings: 'THCK' 600, 'grow' 240;
       transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
     }
   }
 
-  .container-home .wordmark.glitchmark:hover span {
-    animation-play-state: paused;
-    font-variation-settings: 'THCK' 980, 'grow' 1200;
-    transform: translate3d(0, -0.015em, 0) scaleX(1.08) scaleY(0.9);
+  @keyframes fungal-mutant-infected {
+    0% {
+      font-variation-settings: 'THCK' 420, 'grow' 380;
+      transform: translate3d(0, 0, 0) scaleX(1.03) scaleY(1);
+    }
+    9% {
+      font-variation-settings: 'THCK' 980, 'grow' 990;
+      transform: translate3d(-0.03em, 0.03em, 0) scaleX(0.86) scaleY(1.24);
+    }
+    19% {
+      font-variation-settings: 'THCK' 360, 'grow' 1260;
+      transform: translate3d(0.032em, -0.022em, 0) scaleX(1.22) scaleY(0.76);
+    }
+    28% {
+      font-variation-settings: 'THCK' 1100, 'grow' 640;
+      transform: translate3d(-0.028em, 0.02em, 0) scaleX(0.82) scaleY(1.3);
+    }
+    39% {
+      font-variation-settings: 'THCK' 480, 'grow' 1300;
+      transform: translate3d(0.035em, -0.03em, 0) scaleX(1.26) scaleY(0.72);
+    }
+    53% {
+      font-variation-settings: 'THCK' 1200, 'grow' 760;
+      transform: translate3d(-0.033em, 0.025em, 0) scaleX(0.8) scaleY(1.35);
+    }
+    66% {
+      font-variation-settings: 'THCK' 540, 'grow' 1320;
+      transform: translate3d(0.028em, -0.032em, 0) scaleX(1.2) scaleY(0.74);
+    }
+    81% {
+      font-variation-settings: 'THCK' 1080, 'grow' 820;
+      transform: translate3d(-0.024em, 0.02em, 0) scaleX(0.87) scaleY(1.23);
+    }
+    100% {
+      font-variation-settings: 'THCK' 620, 'grow' 460;
+      transform: translate3d(0, 0, 0) scaleX(1.04) scaleY(0.98);
+    }
+  }
+
+  @keyframes fungal-jitter {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    25% { transform: translate3d(0.005em, -0.008em, 0); }
+    50% { transform: translate3d(-0.007em, 0.006em, 0); }
+    75% { transform: translate3d(0.004em, 0.005em, 0); }
+  }
+
+  @keyframes fungal-jitter-infected {
+    0%, 100% { transform: translate3d(0, 0, 0) scaleX(1); }
+    20% { transform: translate3d(0.014em, -0.014em, 0) scaleX(1.04); }
+    40% { transform: translate3d(-0.016em, 0.012em, 0) scaleX(0.95); }
+    60% { transform: translate3d(0.01em, 0.016em, 0) scaleX(1.08); }
+    80% { transform: translate3d(-0.012em, -0.01em, 0) scaleX(0.92); }
+  }
+
+  .container-home .wordmark.glitchmark:hover .glyph {
+    animation-duration: calc(var(--mut-dur) * 0.74), calc(var(--jitter-dur) * 0.7);
+    filter: contrast(1.14) saturate(1.08);
+  }
+
+  .container-home .wordmark.glitchmark:hover .infected {
+    filter: contrast(1.25) saturate(1.18);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .container-home .wordmark.glitchmark span {
+    .container-home .wordmark.glitchmark .glyph {
       animation: none;
-      font-variation-settings: 'THCK' 760, 'grow' 480;
+      transform: none;
+      font-variation-settings: 'THCK' 680, 'grow' 420;
+      filter: none;
+    }
+
+    .container-home .wordmark.glitchmark .infected {
+      font-variation-settings: 'THCK' 760, 'grow' 520;
       transform: none;
     }
   }
