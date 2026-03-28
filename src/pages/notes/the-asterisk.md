@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/DetailLayout.astro
+layout: ../../layouts/Bare.astro
 title: "The Asterisk: A Diffractive Prism"
 date: "2025-02-25"
 ---

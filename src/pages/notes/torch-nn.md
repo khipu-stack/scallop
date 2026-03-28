@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/DetailLayout.astro
+layout: ../../layouts/Bare.astro
 title: "torch.nn"
 date: 2026-02-01
 

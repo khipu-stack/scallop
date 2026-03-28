@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/RawLayout.astro
+layout: ../../layouts/DetailLayout.astro
 title: "Alkaline Mixtape Vol. 1"
 date: "2025-11-17"
 ---
