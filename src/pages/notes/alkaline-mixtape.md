@@ -23,7 +23,7 @@ The structure is hierarchical (作为诅咒的必要解码方式): at the top le
 
 
 ## Sounds contributed by
-*[ajiao](https://www.instagram.com/ajiaoajiaoajiaoajiao/), huazi, [keyu](https://www.instagram.com/keyu_u_u/), [Liu Hanwen](https://www.instagram.com/liuhanwen9918/), [Peng](https://www.instagram.com/suanmuzhipeng/), [Li Xiangwei](https://www.instagram.com/lixiangwei_/), [ResBina](https://www.instagram.com/res.binaa/), [stevelongoriaa](https://www.instagram.com/stevelongoriaa/), [xuanni](https://www.instagram.com/xuanni_space/), [xiuyuan](https://www.instagram.com/yuanxiushen/), [yutong](https://www.instagram.com/gaystaatspo/), [yz](https://www.instagram.com/aiisisssiaaais/)*  
+*[ajiao](https://www.instagram.com/ajiaoajiaoajiaoajiao/), [huazi](https://www.instagram.com/caourchin/), [keyu](https://www.instagram.com/keyu_u_u/), [Liu Hanwen](https://www.instagram.com/liuhanwen9918/), [Peng](https://www.instagram.com/suanmuzhipeng/), [Li Xiangwei](https://www.instagram.com/lixiangwei_/), [ResBina](https://www.instagram.com/res.binaa/), [stevelongoriaa](https://www.instagram.com/stevelongoriaa/), [xuanni](https://www.instagram.com/xuanni_space/), [xiuyuan](https://www.instagram.com/yuanxiushen/), [yutong](https://www.instagram.com/gaystaatspo/), [yaz](https://www.instagram.com/aiisisssiaaais/)*  
 
 <details>
   <summary><strong>source list</strong></summary>
@@ -40,7 +40,7 @@ The structure is hierarchical (作为诅咒的必要解码方式): at the top le
   - xuanni - Wales Coast to Coast;
   - xiuyuan - 20250910, 12, SC_251105_030732;
   - yutong — druming glicth, 声像故障;
-  - yz - 新录音[52, 50, 46, 71];
+  - yaz - 新录音[52, 50, 46, 71];
 </details>
 <br>
 <br>
